@@ -13,6 +13,14 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: '/overseasCompany',
+      name: 'overseasCompany',
+      component: () => import('../views/subjectPages/overseasCompany.vue'),
+      meta: {
+        title: '海外公司注册'
+      }
+    },
+    {
       path: '/netError',
       name: 'netError',
       component: () => import('../views/errorPage/netError.vue'),
