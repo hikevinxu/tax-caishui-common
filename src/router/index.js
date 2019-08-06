@@ -21,16 +21,24 @@ export default new Router({
       }
     },
     {
-      path: '/agencyAccount',
-      name: 'agencyAccount',
-      component: () => import('../views/downLoadPages/agencyAccount.vue'),
+      path: '/agencyAccountProject',
+      name: 'agencyAccountProject',
+      component: () => import('../views/subjectPages/agencyAccount.vue'),
       meta: {
         title: '代理记账'
       }
     },
     {
-      path: '/agencyAccountProject',
-      name: 'agencyAccountProject',
+      path: '/QA',
+      name: 'QA',
+      component: () => import('../views/subjectPages/QA.vue'),
+      meta: {
+        title: '注册海外公司要注意什么？'
+      }
+    },
+    {
+      path: '/agencyAccount',
+      name: 'agencyAccount',
       component: () => import('../views/downLoadPages/agencyAccount.vue'),
       meta: {
         title: '代理记账'
