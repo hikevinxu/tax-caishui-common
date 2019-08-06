@@ -23,9 +23,25 @@ export default new Router({
     {
       path: '/agencyAccount',
       name: 'agencyAccount',
-      component: () => import('../views/subjectPages/agencyAccount.vue'),
+      component: () => import('../views/downLoadPages/agencyAccount.vue'),
       meta: {
         title: '代理记账'
+      }
+    },
+    {
+      path: '/agencyAccountProject',
+      name: 'agencyAccountProject',
+      component: () => import('../views/downLoadPages/agencyAccount.vue'),
+      meta: {
+        title: '代理记账'
+      }
+    },
+    {
+      path: '/overseasRegister',
+      name: 'overseasRegister',
+      component: () => import('../views/downLoadPages/overseasCompany.vue'),
+      meta: {
+        title: '海外公司注册'
       }
     },
     {
