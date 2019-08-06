@@ -15,13 +15,20 @@
           <van-button plain type="primary">获取验证码</van-button>
         </div>
       </div>
-      <div :class="positionFixed ? 'inputItem submitBtn positionFixed' : 'inputItem submitBtn'">
+      <!-- <div v-if="positionFixed" style="height: 40px; margin-top: 33px;"></div> -->
+      <!-- <div :class="positionFixed ? 'inputItem submitBtn positionFixed' : 'inputItem submitBtn'">
+        <van-button type="primary" size="large">立即注册</van-button>
+      </div> -->
+      <div class="inputItem submitBtn">
         <van-button type="primary" size="large">立即注册</van-button>
       </div>
       <div class="copyRight">
         <p>Copyright 2019 | 杭州税牛科技有限公司</p>
         <p>浙ICP19028668号</p>
       </div>
+    </div>
+    <div class="bottomBtn" v-if="positionFixed">
+      <van-button type="primary" size="large" @click="scrollBottom">快速注册</van-button>
     </div>
   </div>
 </template>
@@ -39,11 +46,16 @@ export default {
     }
   },
   mounted() {
+    // 微信内置浏览器浏览H5页面弹出的键盘遮盖文本框的解决办法
+    window.addEventListener('resize', function () {
+      if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
+        window.setTimeout(function () {
+          document.activeElement.scrollIntoViewIfNeeded()
+        }, 0)
+      }
+    })
     window.addEventListener('scroll', () => {
-      // console.log(window.pageYOffset)
-      // console.log(this.$refs.agencyAccount.clientHeight)
-      // console.log(window.innerHeight)
-      if (this.$refs.agencyAccount.clientHeight - window.innerHeight == window.pageYOffset) {
+      if (this.$refs.agencyAccount.clientHeight - window.innerHeight - window.pageYOffset <= 100) {
         this.positionFixed = false
       } else {
         this.positionFixed = true
@@ -51,6 +63,13 @@ export default {
     })
   },
   methods: {
+    scrollBottom() {
+      this.$nextTick(() => {
+        document.documentElement.scrollTop = this.$refs.agencyAccount.clientHeight - window.innerHeight
+        document.body.scrollTop = this.$refs.agencyAccount.clientHeight - window.innerHeight
+        this.positionFixed = false
+      })
+    }
   }
 }
 </script>
@@ -123,6 +142,7 @@ export default {
       }
     }
     .submitBtn {
+      border-radius: 3px;
       .van-button {
         width: 100%;
         font-size: 16px;
@@ -153,6 +173,26 @@ export default {
       color: rgba(153,153,153,1);
       line-height: 20px;
     }
+  }
+  .bottomBtn {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    .van-button {
+        width: 100%;
+        font-size: 16px;
+        font-weight: 600;
+        color: rgba(255,255,255,1);
+        border: 0px solid rgba(201,201,201,1);
+        background: linear-gradient(0deg,rgba(55,179,230,1) 1%,rgba(80,197,247,1) 100%);
+        border-radius: 3px;
+      }
+      .van-button--large {
+        height: 40px;
+        line-height: 40px;
+      }
   }
 }
 </style>

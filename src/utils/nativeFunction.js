@@ -84,3 +84,13 @@ export function nativeHideTitleBar (params) {
 export function nativeClose () {
   brigeNativeByJavascript('close')
 }
+
+/**
+ * 10.跳转页面
+ * @function nativeJumpTo
+ * @param pagePath   // main/home/queryService/company (公司详情页)
+ * @param pageArgs   
+ */
+export function nativeJumpTo (params) {
+  brigeNativeByJavascript('jumpTo', params)
+}
