@@ -2,7 +2,7 @@
   <div class="overseasCompany">
     <div class="headerImgIntro">
       <img src="@/assets/global/overseas_head.png" alt="">
-      <div class="headerImgHelp">
+      <div class="headerImgHelp" @click="goQA">
         <span>注册海外公司要注意什么?  |  了解一下</span>
       </div>
     </div>
@@ -13,8 +13,8 @@
       </div>
       <div class="swiper">
         <van-swipe class="swiper" :show-indicators="false" :autoplay="3000" indicator-color="white">
-          <van-swipe-item>
-            <img @click="goCompany" :src="img" alt="">
+          <van-swipe-item @click="goCompany">
+            <img :src="img" alt="">
           </van-swipe-item>
         </van-swipe>
       </div>
@@ -25,8 +25,8 @@
         <span>全流程服务公司推荐</span>
       </div>
       <div class="companyList">
-        <div class="img" v-for="(item, index) in companyList" :key="index">
-          <img :src="item" alt="" srcset="" >
+        <div class="img" v-for="(item, index) in companyList" :key="index" @click="goCompanyRecommend(item)">
+          <img :src="item.img" alt="" srcset="" >
         </div>
       </div>
     </div>
@@ -36,13 +36,13 @@
         <span>服务超值公司推荐</span>
       </div>
       <div class="valuableCompanyList">
-        <div class="valuableCompany" v-for="(item,index) in valuableCompanyList" :key='index'>
-          <img :src="item" alt="" srcset="" >
+        <div class="valuableCompany" v-for="(item,index) in valuableCompanyList" :key='index' @click="goCompanyRecommend(item)">
+          <img :src="item.img" alt="" srcset="" >
         </div>
       </div>
     </div>
     <div class="hotCountries">
-      <div class="title">
+      <div class="title" @click="close">
         <img src="@/assets/global/overseas_ic_hot.png" alt="">
         <span>热门国家注册</span>
       </div>
@@ -51,8 +51,8 @@
           <span :class="activeIndex == index ? 'active': ''" v-for="(item,index) in hotList" :key='index' @click="hotChange(item,index)">{{ item.countries }}</span>
         </div>
         <div class="countriesList">
-          <div class="img" v-for="(item,index) in countriesList" :key="index">
-            <img :src="item" alt="">
+          <div class="img" v-for="(item,index) in countriesList" :key="index" @click="goCompanyRecommend(item)">
+            <img :src="item.img" alt="">
           </div>
         </div>
       </div>
@@ -61,7 +61,9 @@
 </template>
 <script>
 import Vue from 'vue'
+import { nativeJumpTo, nativeClose } from '@/utils/nativeFunction'
 import { Swipe, SwipeItem, Toast } from 'vant'
+import { pathList } from '@/utils/global'
 Vue.use(Swipe).use(SwipeItem)
 Vue.use(Toast)
 export default {
@@ -70,47 +72,92 @@ export default {
       activeIndex:0,
       img: require('../../assets/global/recomd_01.png'),
       companyList: [
-        require('../../assets/global/full_list_01.png'),
-        require('../../assets/global/full_list_02.png'),
+        {
+          img: require('../../assets/global/full_list_01.png'),
+          firmId: '143760'
+        },
+        {
+          img: require('../../assets/global/full_list_02.png'),
+          firmId: '143762'
+        },
       ],
       valuableCompanyList: [
-        require('../../assets/global/worthy_list_01.png'),
-        require('../../assets/global/worthy_list_02.png'),
-        require('../../assets/global/worthy_list_03.png'),
+        {
+          img: require('../../assets/global/worthy_list_01.png'),
+          firmId: '143755'
+        },
+        {
+          img: require('../../assets/global/worthy_list_02.png'),
+          firmId: '143696'
+        },
+        {
+          img: require('../../assets/global/worthy_list_03.png'),
+          firmId: '143748'
+        }
       ],
       hotList: [
         {
           countries: '香港',
           companyList: [
-            require('../../assets/global/hot_list_hk_07.png'),
-            require('../../assets/global/hot_list_hk_08.png'),
+            {
+              img: require('../../assets/global/hot_list_hk_07.png'),
+              firmId: '143683'
+            },
+            {
+              img: require('../../assets/global/hot_list_hk_08.png'),
+              firmId: '143671'
+            }
           ]
         },
         {
           countries: '美国',
           companyList: [
-            require('../../assets/global/hot_list_hk_01.png'),
-            require('../../assets/global/hot_list_hk_02.png'),
+            {
+              img: require('../../assets/global/hot_list_hk_01.png'),
+              firmId: '143682'
+            },
+            {
+              img: require('../../assets/global/hot_list_hk_02.png'),
+              firmId: '143688'
+            }
           ]
         },
         {
           countries: '英国',
           companyList: [
-            require('../../assets/global/hot_list_hk_03.png'),
-            require('../../assets/global/hot_list_hk_04.png'),
+            {
+              img: require('../../assets/global/hot_list_hk_03.png'),
+              firmId: '143701'
+            },
+            {
+              img: require('../../assets/global/hot_list_hk_04.png'),
+              firmId: '143702'
+            }
           ]
         },
         {
           countries: 'BVI',
           companyList: [
-            require('../../assets/global/hot_list_hk_05.png'),
-            require('../../assets/global/hot_list_hk_06.png'),
+            {
+              img: require('../../assets/global/hot_list_hk_05.png'),
+              firmId: '143706'
+            },
+            {
+              img: require('../../assets/global/hot_list_hk_06.png'),
+              firmId: '143711'
+            }
           ]
         }
       ],
       countriesList: [
-        require('../../assets/global/hot_list_hk_07.png'),
-        require('../../assets/global/hot_list_hk_08.png'),
+        {
+          img: require('../../assets/global/hot_list_hk_07.png'),
+          firmId: '143683'
+        },
+        {
+          img: require('../../assets/global/hot_list_hk_08.png'),
+          firmId: '143671'
+        }
       ]
     }
   },
@@ -118,12 +165,30 @@ export default {
     onChange(index) {
       Toast('当前 Swipe 索引：' + index);
     },
+    goQA(){
+      this.$router.push({path: '/QA'})
+    },
     hotChange(item,index){
       this.activeIndex = index
       this.countriesList = item.companyList
     },
     goCompany(){
-      
+      let data = {
+        pagePath: pathList.companyDetailPath,
+        pageArgs: JSON.stringify({firmId: '143880'})
+      }
+      nativeJumpTo(data)
+    },
+    goCompanyRecommend(item){
+      let data = {
+        pagePath: pathList.companyDetailPath,
+        pageArgs: JSON.stringify({firmId: item.firmId})
+      }
+      console.log(data)
+      nativeJumpTo(data)
+    },
+    close() {
+      nativeClose()
     }
   }
 }

@@ -48,6 +48,11 @@ export let Terminal = {
     }
   } 
 }
+//app内嵌页跳转链接
+export let pathList = {
+  //海外注册path
+  companyDetailPath: 'main/home/queryService/company'
+}
 
 export let eventManager = {
   handlers: {},
