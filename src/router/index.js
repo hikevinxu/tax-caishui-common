@@ -21,6 +21,14 @@ export default new Router({
       }
     },
     {
+      path: '/agencyAccount',
+      name: 'agencyAccount',
+      component: () => import('../views/subjectPages/agencyAccount.vue'),
+      meta: {
+        title: '代理记账'
+      }
+    },
+    {
       path: '/netError',
       name: 'netError',
       component: () => import('../views/errorPage/netError.vue'),
