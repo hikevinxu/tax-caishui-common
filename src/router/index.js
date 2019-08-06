@@ -53,6 +53,14 @@ export default new Router({
       }
     },
     {
+      path: '/download',
+      name: 'download',
+      component: () => import('../views/downLoadPages/downloadCommon.vue'),
+      meta: {
+        title: '财税鱼'
+      }
+    },
+    {
       path: '/netError',
       name: 'netError',
       component: () => import('../views/errorPage/netError.vue'),
