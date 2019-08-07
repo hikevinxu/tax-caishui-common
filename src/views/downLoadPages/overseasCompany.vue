@@ -17,7 +17,7 @@
       </div>
       <div id="captcha"></div>
       <div class="inputItem submitBtn">
-        <van-button type="primary" size="large" @click="register">立即注册</van-button>
+        <van-button type="primary" size="large" @click="register">立&nbsp;即&nbsp;注&nbsp;册</van-button>
       </div>
     </div>
     <div class="intro bottom">
@@ -128,8 +128,49 @@ export default {
       globalApi.authVerifycodeLogin(params).then(res => {
         if(res.code == 0){
           Toast('恭喜您，注册成功！')
+          this.download()
         }
       })
+    },
+    download() {
+      // 获取终端的相关信息
+      var Terminal = {
+        // 辨别移动终端类型
+        platform : function(){
+          var u = navigator.userAgent, app = navigator.appVersion;
+          return {
+            // android终端或者uc浏览器
+            android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1,
+            // 是否为iPhone或者QQHD浏览器
+            iPhone: u.indexOf('iPhone') > -1 ,
+            // 是否iPad
+            iPad: u.indexOf('iPad') > -1,
+            weixin: u.indexOf('MicroMessenger') > -1
+          };
+        }(),
+        // 辨别移动终端的语言：zh-cn、en-us、ko-kr、ja-jp...
+        language : (navigator.browserLanguage || navigator.language).toLowerCase()
+      }
+      
+      // 根据不同的终端，跳转到不同的地址
+      var theUrl = '';
+      if(Terminal.platform.android){//安卓端
+        if(Terminal.platform.weixin){
+          alert('请复制链接到其他浏览器打开')
+        }else{
+          theUrl = 'https://res.caishuiyu.com/common/pkg/android/caishuiyu.apk';
+          location.href = theUrl;
+          console.log('安卓')
+        }
+      } else {
+        if(Terminal.platform.iPhone){//iPhone端
+          theUrl = 'https://itunes.apple.com/cn/app/id1454790969?l=zh&ls=1&mt=8';
+        }else if(Terminal.platform.iPad){//iPad端
+          theUrl = 'https://itunes.apple.com/cn/app/id1454790969?l=zh&ls=1&mt=8';
+        }
+        console.log('ios')
+        // location.href = theUrl;
+      }
     }
   }
 }
@@ -154,13 +195,14 @@ export default {
       background:rgba(255,255,255,1);
       margin: 0 auto;
       margin-top: 30px;
+      margin-bottom: 12px;
       .van-field {
         height: 40px;
         font-size:15px;
         font-family:PingFangSC-Medium;
         font-weight:500;
         color:rgba(51,51,51,1);
-        border:1px solid rgba(201,201,201,1);
+        border:1px solid #e1e1e1;
         border-radius: 3px;
       }
       .van-cell {
@@ -168,10 +210,11 @@ export default {
       }
     }
     .inputItem:nth-child(2){
-      margin-top: 12px;
+      margin-top: 0;
+      margin-bottom: 33px;
     }
     .inputItem:last-child{
-      margin-top: 33px;
+      margin-top: 28px;
     }
     .password {
       width: 160px;
@@ -218,7 +261,24 @@ export default {
     }
   }
   .bottom {
-    margin-top: 35px;
+    margin-top: 23px;
+  }
+  ::-webkit-input-placeholder { /* WebKit browsers */
+    font-family: PingFangSC-Light, sans-serif;
+    color:rgba(153,153,153,1);
+    font-size: 12px;
+  }
+
+  ::-moz-placeholder { /* Mozilla Firefox 19+ */
+    font-family: PingFangSC-Light, sans-serif;
+    color:rgba(153,153,153,1);
+    font-size: 12px;
+  }
+
+  :-ms-input-placeholder { /* Internet Explorer 10+ */
+    font-family: PingFangSC-Light, sans-serif;
+    color:rgba(153,153,153,1);
+    font-size: 12px;
   }
 }
 </style>

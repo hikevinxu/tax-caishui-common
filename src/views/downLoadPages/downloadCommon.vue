@@ -9,7 +9,7 @@
 				<p>一站式财税服务推荐平台</p>
 			</div>
 		</div>
-    <div class="btn" id="btn">立即下载</div>
+    <div class="btn" id="btn" @click="download">立即下载</div>
     <div class="info">
       <p>Copyright 2019 | 杭州税牛科技有限公司</p>
       <p>浙ICP备19028668号</p>
@@ -21,6 +21,48 @@ export default {
   data () {
     return {
 
+    }
+  },
+  methods: {
+    download() {
+      // 获取终端的相关信息
+      var Terminal = {
+        // 辨别移动终端类型
+        platform : function(){
+          var u = navigator.userAgent, app = navigator.appVersion;
+          return {
+            // android终端或者uc浏览器
+            android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1,
+            // 是否为iPhone或者QQHD浏览器
+            iPhone: u.indexOf('iPhone') > -1 ,
+            // 是否iPad
+            iPad: u.indexOf('iPad') > -1,
+            weixin: u.indexOf('MicroMessenger') > -1
+          };
+        }(),
+        // 辨别移动终端的语言：zh-cn、en-us、ko-kr、ja-jp...
+        language : (navigator.browserLanguage || navigator.language).toLowerCase()
+      }
+      
+      // 根据不同的终端，跳转到不同的地址
+      var theUrl = '';
+      if(Terminal.platform.android){//安卓端
+        if(Terminal.platform.weixin){
+          alert('请复制链接到其他浏览器打开')
+        }else{
+          theUrl = 'https://res.caishuiyu.com/common/pkg/android/caishuiyu.apk';
+          location.href = theUrl;
+          console.log('安卓')
+        }
+      } else {
+        if(Terminal.platform.iPhone){//iPhone端
+          theUrl = 'https://itunes.apple.com/cn/app/id1454790969?l=zh&ls=1&mt=8';
+        }else if(Terminal.platform.iPad){//iPad端
+          theUrl = 'https://itunes.apple.com/cn/app/id1454790969?l=zh&ls=1&mt=8';
+        }
+        console.log('ios')
+        // location.href = theUrl;
+      }
     }
   }
 }
