@@ -37,7 +37,7 @@ export default {
     return fetchGet('/address/trees', params)
   },
   /**
-   * 提问-获取问题分类
+   * 上传图片
    * @function getFileuploadUpload
    * @type 'POST'
    */
@@ -46,19 +46,19 @@ export default {
   },
   
   /**
-   * 登录
+   * 短信验证码登录
+   * @function authVerifycodeLogin
+   * @type 'POST'
+   */
+  authVerifycodeLogin (params) {
+    return fetchPost('/auth/verifycode/login', params)
+  },
+  /**
+   * 发送登录验证码
    * @function authLogin
    * @type 'POST'
    */
-  authLogin (params) {
-    return fetchPost('/auth/login', params)
-  },
-  /**
-   * 登录
-   * @function authLogin
-   * @type 'GET'
-   */
-  loginOut () {
-    return fetchGet('/auth/logout')
+  sendVerifycode (params) {
+    return fetchPost('/auth/verifycode/login/send_verifycode', params)
   },
 }
