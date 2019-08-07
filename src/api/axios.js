@@ -2,7 +2,6 @@ import axios from 'axios'
 import Vue from 'vue'
 import router from '@/router/index'
 import { Toast } from 'vant'
-import { Message, MessageBox } from 'element-ui'
 import cookie from '@/utils/cookie'
 import { Terminal } from '@/utils/global'
 
@@ -114,13 +113,5 @@ export function fetchGet (url, param) {
 }
 
 function ToastFailInfo (info) {
-  if (Terminal.deviceInfo().deviceType == 'pc') {
-    Message({
-      message: info,
-      type: 'error',
-      duration: 2 * 1000
-    })
-  } else {
-    Toast.fail(info)
-  }
+  Toast.fail(info)
 }
