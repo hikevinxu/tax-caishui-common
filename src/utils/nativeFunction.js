@@ -94,3 +94,13 @@ export function nativeClose () {
 export function nativeJumpTo (params) {
   brigeNativeByJavascript('jumpTo', params)
 }
+
+/**
+ * 11.分享
+ * @function nativeShare
+ * @param pagePath   // main/home/queryService/company (公司详情页)
+ * @param pageArgs   
+ */
+export function nativeSetShare (params) {
+  brigeNativeByJavascript('setShare', params)
+}

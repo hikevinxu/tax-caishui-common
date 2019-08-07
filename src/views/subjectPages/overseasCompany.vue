@@ -61,7 +61,7 @@
 </template>
 <script>
 import Vue from 'vue'
-import { nativeJumpTo, nativeClose } from '@/utils/nativeFunction'
+import { nativeJumpTo, nativeClose, nativeSetShare } from '@/utils/nativeFunction'
 import { Swipe, SwipeItem, Toast } from 'vant'
 import { pathList } from '@/utils/global'
 Vue.use(Swipe).use(SwipeItem)
@@ -160,6 +160,12 @@ export default {
         }
       ]
     }
+  },
+  created(){
+    let data = {
+      share: true,shareTitle:"", shareDesc:"",shareLink:"",shareImg:""
+    }
+    nativeSetShare(JSON.stringify(data))
   },
   methods: {
     onChange(index) {
