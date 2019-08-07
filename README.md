@@ -20,11 +20,17 @@ yarn build / npm run build
 yarn lint / npm run lint
 ```
 
-### 模块整合(本地开发环境,因微信支付、短信短链接、微信公众号等配置，需内网穿透)
+### 模块整合(本地开发环境，内网测试环境)
 
 ```javascript
 
-
+// 测试地址：
+// 落地页：
+// 海外注册： http://h5-tax-caishui-common.int.anniu-inc.com/overseasRegister
+// 代理记账： http://h5-tax-caishui-common.int.anniu-inc.com/agencyAccount
+// 通用地址： http://h5-tax-caishui-common.int.anniu-inc.com/download
+// 专题页
+// 海外注册:  http://h5-tax-caishui-common.int.anniu-inc.com/overseasCompany
 
 ```
 
@@ -40,6 +46,12 @@ yarn lint / npm run lint
 
 ```javascript
 
-
+// 正式地址：
+// 落地页：
+// 海外注册： https://app.caishuiyu.com/overseasRegister
+// 代理记账： https://app.caishuiyu.com/agencyAccount
+// 通用地址： https://app.caishuiyu.com/download
+// 专题页
+// 海外注册:  https://app.caishuiyu.com/overseasCompany
 
 ```
