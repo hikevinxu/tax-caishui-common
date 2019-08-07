@@ -42,7 +42,7 @@
       </div>
     </div>
     <div class="hotCountries">
-      <div class="title" @click="close">
+      <div class="title">
         <img src="@/assets/global/overseas_ic_hot.png" alt="">
         <span>热门国家注册</span>
       </div>
@@ -74,25 +74,25 @@ export default {
       companyList: [
         {
           img: require('../../assets/global/full_list_01.png'),
-          firmId: '143760'
+          firmId: '230257'
         },
         {
           img: require('../../assets/global/full_list_02.png'),
-          firmId: '143762'
+          firmId: '230258'
         },
       ],
       valuableCompanyList: [
         {
           img: require('../../assets/global/worthy_list_01.png'),
-          firmId: '143755'
+          firmId: '230252'
         },
         {
           img: require('../../assets/global/worthy_list_02.png'),
-          firmId: '143696'
+          firmId: '230226'
         },
         {
           img: require('../../assets/global/worthy_list_03.png'),
-          firmId: '143748'
+          firmId: '230245'
         }
       ],
       hotList: [
@@ -101,11 +101,11 @@ export default {
           companyList: [
             {
               img: require('../../assets/global/hot_list_hk_07.png'),
-              firmId: '143683'
+              firmId: '230222'
             },
             {
               img: require('../../assets/global/hot_list_hk_08.png'),
-              firmId: '143671'
+              firmId: '230195'
             }
           ]
         },
@@ -114,11 +114,11 @@ export default {
           companyList: [
             {
               img: require('../../assets/global/hot_list_hk_01.png'),
-              firmId: '143682'
+              firmId: '230218'
             },
             {
               img: require('../../assets/global/hot_list_hk_02.png'),
-              firmId: '143688'
+              firmId: '230196'
             }
           ]
         },
@@ -127,11 +127,11 @@ export default {
           companyList: [
             {
               img: require('../../assets/global/hot_list_hk_03.png'),
-              firmId: '143701'
+              firmId: '230208'
             },
             {
               img: require('../../assets/global/hot_list_hk_04.png'),
-              firmId: '143702'
+              firmId: '230191'
             }
           ]
         },
@@ -140,11 +140,11 @@ export default {
           companyList: [
             {
               img: require('../../assets/global/hot_list_hk_05.png'),
-              firmId: '143706'
+              firmId: '230212'
             },
             {
               img: require('../../assets/global/hot_list_hk_06.png'),
-              firmId: '143711'
+              firmId: '230224'
             }
           ]
         }
@@ -152,11 +152,11 @@ export default {
       countriesList: [
         {
           img: require('../../assets/global/hot_list_hk_07.png'),
-          firmId: '143683'
+          firmId: '230222'
         },
         {
           img: require('../../assets/global/hot_list_hk_08.png'),
-          firmId: '143671'
+          firmId: '230195'
         }
       ]
     }
@@ -175,7 +175,7 @@ export default {
     goCompany(){
       let data = {
         pagePath: pathList.companyDetailPath,
-        pageArgs: JSON.stringify({firmId: '143880'})
+        pageArgs: JSON.stringify({firmId: '230288'})
       }
       nativeJumpTo(data)
     },

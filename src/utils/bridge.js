@@ -24,31 +24,14 @@ function setupWebViewJavascriptBridge (callback) {
 export const brigeNativeByJavascript = (funcName, data, callbackName, callbackNameStr) => {
   console.log(funcName)
   if (window.native) {
-    console.log(1)
     let dataJson = data ? JSON.stringify(data) : '{}'
     if (callbackName) {
-      console.log(2)
       window.native[funcName](dataJson, callbackNameStr)
     } else {
-      console.log(3)
       if (data) {
-        console.log(4)
-        if (window.native[funcName](dataJson)) {
-          console.log(5)
-          return window.native[funcName](dataJson)
-        } else {
-          console.log(6)
-          window.native[funcName](dataJson)
-        }
+        window.native[funcName](dataJson)
       } else {
-        console.log(7)
-        if (window.native[funcName]()) {
-          console.log(8)
-          return window.native[funcName]()
-        } else {
-          console.log(9)
-          window.native[funcName]()
-        }
+        window.native[funcName]()
       }
     }
   } else {
