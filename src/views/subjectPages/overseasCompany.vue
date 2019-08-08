@@ -165,7 +165,7 @@ export default {
     let data = {
       share: true,shareTitle:"", shareDesc:"",shareLink:"",shareImg:""
     }
-    nativeSetShare(JSON.stringify(data))
+    nativeSetShare(data)
   },
   methods: {
     onChange(index) {
@@ -181,14 +181,14 @@ export default {
     goCompany(){
       let data = {
         pagePath: pathList.companyDetailPath,
-        pageArgs: JSON.stringify({firmId: '230288'})
+        pageArgs: {firmId: '230288'}
       }
       nativeJumpTo(data)
     },
     goCompanyRecommend(item){
       let data = {
         pagePath: pathList.companyDetailPath,
-        pageArgs: JSON.stringify({firmId: item.firmId})
+        pageArgs: {firmId: item.firmId}
       }
       console.log(data)
       nativeJumpTo(data)
