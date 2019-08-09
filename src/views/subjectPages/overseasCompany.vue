@@ -61,6 +61,7 @@
 </template>
 <script>
 import Vue from 'vue'
+import sa from 'sa-sdk-javascript'
 import { nativeJumpTo, nativeClose, nativeSetShare } from '@/utils/nativeFunction'
 import { Swipe, SwipeItem, Toast } from 'vant'
 import { pathList } from '@/utils/global'

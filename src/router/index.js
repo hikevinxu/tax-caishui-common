@@ -17,7 +17,7 @@ export default new Router({
       name: 'overseasCompany',
       component: () => import('../views/subjectPages/overseasCompany.vue'),
       meta: {
-        title: '海外公司注册'
+        title: '海外公司注册专题'
       }
     },
     {
@@ -25,7 +25,7 @@ export default new Router({
       name: 'agencyAccountProject',
       component: () => import('../views/subjectPages/agencyAccount.vue'),
       meta: {
-        title: '代理记账'
+        title: '代理记账专题'
       }
     },
     {
