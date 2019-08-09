@@ -16,7 +16,7 @@ Vue.config.productionTip = false
 
 sa.init({
   // 测试地址：
-  server_url: 'https://sensors-api.caishuiyu.com/sa?project=default',
+  server_url: 'https://sensors-api.caishuiyu.com/sa?project=caishuiyu',
   // 正式地址：
   // server_url: 'https://sensors-api.taxlioner.com/sa?project=tax',
   // 是否开启 debug 模式，true 开启，false 关闭，开启 debug 模式，每发送一条数据会在页面弹出一次
