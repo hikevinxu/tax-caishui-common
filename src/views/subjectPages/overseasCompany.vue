@@ -118,8 +118,8 @@ export default {
               firmId: '230218'
             },
             {
-              img: require('../../assets/global/hot_list_hk_02.png'),
-              firmId: '230196'
+              img: require('../../assets/global/hot_list_us_bjzstzgwyxgs.png'),
+              firmId: '230310'
             }
           ]
         },
@@ -131,8 +131,8 @@ export default {
               firmId: '230208'
             },
             {
-              img: require('../../assets/global/hot_list_hk_04.png'),
-              firmId: '230191'
+              img: require('../../assets/global/hot_list_uk_szjblgjswgwyxgs.png'),
+              firmId: '230239'
             }
           ]
         },
@@ -273,7 +273,7 @@ export default {
       align-items: center;
       justify-content: flex-start;
       flex-wrap: nowrap;
-      height: 214px;
+      // height: 214px;
       overflow-x: auto;
       margin-top: 17px;
       .img{
@@ -311,7 +311,7 @@ export default {
         justify-content: center;
         background: #ffffff;
         border-bottom: 1px solid rgba(0,0,0,0.04);
-        height: 111px;
+        // height: 111px;
         img{
           display: block;
           width: 100%;
@@ -366,7 +366,7 @@ export default {
           align-items: center;
           justify-content: center;
           border-radius: 4px;
-          height: 225px;
+          // height: 225px;
           img{
             display: block;
             width: 100%;
