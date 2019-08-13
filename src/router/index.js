@@ -45,11 +45,35 @@ export default new Router({
       }
     },
     {
+      path: '/agencyAccount_2',
+      name: 'agencyAccount_2',
+      component: () => import('../views/downLoadPages/agencyAccount_2.vue'),
+      meta: {
+        title: '代理记账_2'
+      }
+    },
+    {
       path: '/overseasRegister',
       name: 'overseasRegister',
       component: () => import('../views/downLoadPages/overseasCompany.vue'),
       meta: {
         title: '海外公司注册'
+      }
+    },
+    {
+      path: '/overseasRegister_2',
+      name: 'overseasRegister_2',
+      component: () => import('../views/downLoadPages/overseasCompany_2.vue'),
+      meta: {
+        title: '海外公司注册_2'
+      }
+    },
+    {
+      path: '/companyRegister',
+      name: 'companyRegister',
+      component: () => import('../views/downLoadPages/companyRegister.vue'),
+      meta: {
+        title: '公司注册'
       }
     },
     {
