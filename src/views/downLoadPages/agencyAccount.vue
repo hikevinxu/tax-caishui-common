@@ -28,6 +28,7 @@
 <script>
 
 import Vue from 'vue'
+import sa from 'sa-sdk-javascript'
 import { Field, Button, Toast } from 'vant'
 import globalApi from '@/api/globalApi'
 import { config } from '@/utils/global'
@@ -127,6 +128,13 @@ export default {
       }
       globalApi.authVerifycodeLogin(params).then(res => {
         if(res.code == 0){
+          if(res.data.authInfo.newRegistration == true){
+            sa.track('WebSignUp', {
+                target: '代理记账推广_01',
+                phone: this.phone
+            })
+            sa.login(res.data.authInfo.uid)
+          }
           Toast('恭喜您，注册成功！')
           this.download()
         }
