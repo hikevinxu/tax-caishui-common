@@ -45,6 +45,14 @@ export default new Router({
       }
     },
     {
+      path: '/kaihu',
+      name: 'kaihu',
+      component: () => import('../views/downLoadPages/agencyAccount.vue'),
+      meta: {
+        title: '代理记账'
+      }
+    },
+    {
       path: '/agencyAccount_2',
       name: 'agencyAccount_2',
       component: () => import('../views/downLoadPages/agencyAccount_2.vue'),
