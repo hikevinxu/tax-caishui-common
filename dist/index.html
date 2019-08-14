@@ -1,0 +1,22 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"><link rel=icon href=/logo_icon.ico><title>财税鱼</title><script>(function(window, document) {
+        function resize() {
+          var ww = window.innerWidth
+          if (ww > window.screen.width) {
+            window.requestAnimationFrame(resize)
+          } else {
+            if (ww > 750) {
+              ww = 750
+            }
+            document.documentElement.style.fontSize = ww * 100 / 750 + 'px'
+          }
+        }
+
+        resize();
+
+        window.addEventListener('resize', resize);
+        window.addEventListener('pageshow', function (e) {
+          if (e.presisted) {
+            resize();
+          }
+        });
+      })(window, document);</script><link href=/css/app.f456358d.css rel=preload as=style><link href=/js/app.5d9bf87b.js rel=preload as=script><link href=/js/chunk-vendors.a6e89e1a.js rel=preload as=script><link href=/css/app.f456358d.css rel=stylesheet></head><body><div id=app></div><script src=/js/chunk-vendors.a6e89e1a.js></script><script src=/js/app.5d9bf87b.js></script></body><script src="https://cstaticdun.126.net/load.min.js?t=201903281201"></script></html>
