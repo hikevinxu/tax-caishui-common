@@ -71,15 +71,15 @@ export default {
   data () {
     return {
       activeIndex:0,
-      img: require('../../assets/global/recomd_01.png'),
+      img: require('../../assets/global/1.png'),
       companyList: [
         {
-          img: require('../../assets/global/full_list_01.png'),
-          firmId: '230257'
+          img: require('../../assets/global/full_list_shhccwzxyxgs.png'),
+          firmId: '178983'
         },
         {
-          img: require('../../assets/global/full_list_02.png'),
-          firmId: '230258'
+          img: require('../../assets/global/full_list_zgxjpswglzxgs.png'),
+          firmId: '230323'
         },
       ],
       valuableCompanyList: [
@@ -182,7 +182,7 @@ export default {
     goCompany(){
       let data = {
         pagePath: pathList.companyDetailPath,
-        pageArgs: {firmId: '230288'}
+        pageArgs: {firmId: '230282'}
       }
       nativeJumpTo(data)
     },
