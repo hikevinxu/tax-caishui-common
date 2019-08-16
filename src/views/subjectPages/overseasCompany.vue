@@ -163,6 +163,7 @@ export default {
     }
   },
   created(){
+    sa.quick("autoTrackSinglePage",{$title: '海外公司注册专题'})
     let data = {
       share: true,shareTitle:"", shareDesc:"",shareLink:"",shareImg:""
     }
