@@ -7167,10 +7167,10 @@ rxjs@^6.4.0:
   dependencies:
     tslib "^1.9.0"
 
-sa-sdk-javascript@^1.13.5:
-  version "1.13.14"
-  resolved "https://registry.npm.taobao.org/sa-sdk-javascript/download/sa-sdk-javascript-1.13.14.tgz?cache=0&sync_timestamp=1562142623841&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fsa-sdk-javascript%2Fdownload%2Fsa-sdk-javascript-1.13.14.tgz#9ec44739d54d87d70e4c8fd1791e9f54e6ab09da"
-  integrity sha1-nsRHOdVNh9cOTI/ReR6fVOarCdo=
+sa-sdk-javascript@^1.14.5:
+  version "1.14.5"
+  resolved "https://registry.npm.taobao.org/sa-sdk-javascript/download/sa-sdk-javascript-1.14.5.tgz#0b7c4a1d853e50f90489f1bde447b77a4cd1274e"
+  integrity sha1-C3xKHYU+UPkEifG95Ee3ekzRJ04=
 
 safe-buffer@5.1.2, safe-buffer@^5.0.1, safe-buffer@^5.1.0, safe-buffer@^5.1.1, safe-buffer@^5.1.2, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "5.1.2"

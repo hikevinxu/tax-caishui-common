@@ -16,9 +16,9 @@ Vue.config.productionTip = false
 
 sa.init({
   // 正式地址：
-  server_url: 'https://sensors-api.caishuiyu.com/sa?project=caishuiyu',
+  // server_url: 'https://sensors-api.caishuiyu.com/sa?project=caishuiyu',
   // 测试地址：
-  // server_url: 'https://sensors-api.shebaowa.com/sa?project=default',
+  server_url: 'https://sensors-api.caishuiyu.com/sa?project=default',
   // 是否开启 debug 模式，true 开启，false 关闭，开启 debug 模式，每发送一条数据会在页面弹出一次
   // debug_mode: true,
   // 配置打通 App 与 H5 的参数
@@ -38,10 +38,3 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app')
-
-router.afterEach((to,from) => {
-  Vue.nextTick(() => {
-      // console.log(to)
-      sa.quick("autoTrackSinglePage",{$title:to.meta.title})
-  });
-})

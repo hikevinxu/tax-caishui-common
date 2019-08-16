@@ -45,6 +45,7 @@ export default {
     }
   },
   mounted() {
+    sa.quick("autoTrackSinglePage",{$title: '海外注册推广_02'})
     // 微信内置浏览器浏览H5页面弹出的键盘遮盖文本框的解决办法
     window.addEventListener('resize', function () {
       if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'TEXTAREA') {
@@ -72,6 +73,7 @@ export default {
                 let params = {
                   clientType: 'h5',
                   verifyType: 'sms',
+                  captchaId: config.captchaId,
                   captchaValidate: data.validate,
                   phone: that.phone
                 }

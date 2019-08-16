@@ -4,7 +4,7 @@ export let config = {
   // 高德地图的 key
   amapKey: '54f7b2ff0b18deaefc0fd1925e434ead',
   // 网易云盾的 key
-  captchaId: 'ed852fa384a14b579172a3f93ba4c934'
+  captchaId: '542ca0c104ea48ffb746c922d27cdc5c'
 }
 export let regExp = {
   // 上传图片 名字中含有非法字符
