@@ -55,9 +55,9 @@ export default new Router({
     {
       path: '/kaihu',
       name: 'kaihu',
-      component: () => import('../views/downLoadPages/agencyAccount.vue'),
+      component: () => import('../views/downLoadPages/companyRegister.vue'),
       meta: {
-        title: '代理记账推广_01'
+        title: '公司注册'
       }
     },
     {
