@@ -4,7 +4,7 @@
       <p class="guide_text">点击右上角按钮，然后在弹出的菜单中，点击 <strong style="font-weight: bold">在{{isIos ? 'Safari' : '浏览器'}}中打开</strong>，即可安装</p>
 			<img class="arrow" src="@/assets/downLoadPages/the-arrow.png">
     </div>
-    <div v-else>
+    <div>
       <div class="intro">
         <img src="@/assets/downLoadPages/image_2_1.png" alt="">
       </div>
