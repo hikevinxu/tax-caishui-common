@@ -127,7 +127,7 @@ export default {
         font-weight: 600;
         color: rgba(255,255,255,1);
         border: 0px solid rgba(201,201,201,1);
-        background: linear-gradient(0deg,rgba(55,179,230,1) 1%,rgba(80,197,247,1) 100%);
+        background: linear-gradient(0deg,rgba(59,85,202,1) 0%,rgba(110,169,255,1) 100%);
         border-radius: 3px;
       }
       .van-button--large {
