@@ -39,7 +39,15 @@ export default new Router({
     {
       path: '/landPage',
       name: 'landPage',
-      component: () => import('../views/downLoadPages/landPage.vue'),
+      component: () => import('../views/downLoadPages/landPage/landPage.vue'),
+      meta: {
+        title: '财税鱼渠道页'
+      }
+    },
+    {
+      path: '/downloadAPP',
+      name: 'downloadAPP',
+      component: () => import('../views/downLoadPages/landPage/download.vue'),
       meta: {
         title: '财税鱼渠道页'
       }

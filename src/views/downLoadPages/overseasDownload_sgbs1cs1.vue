@@ -68,6 +68,7 @@ export default {
       } else {
         if(this.isIos){
           console.log('ios')
+          Toast('IOS暂不可下载，可前往各大安卓应用市场下载安装！感谢大家！')
           sa.track('WebDownloadClick', {
             target: '海外注册推广_D02',
             url: location.href
