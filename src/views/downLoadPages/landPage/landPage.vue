@@ -34,7 +34,7 @@
         <div class="inputItem downloadBtn">
           <button :style="{'background': formData.buttonBgColor}" @click="download">{{formData.buttonRemark}}</button>
         </div>
-        <div :style="{'color': formData.buttonUnderColor}" class="buttonUnder">{{formData.buttonUnder}}</div>
+        <div v-if="formData.buttonUnder" :style="{'color': formData.buttonUnderColor}" class="buttonUnder" v-html="handleText(formData.buttonUnder)"></div>
         <div id="captcha"></div>
       </div>
       <div class="bottomImg" v-if="formData.tailImg">
@@ -155,7 +155,7 @@ export default {
           if (this.formData.dowloadUrl && this.formData.dowloadUrl != '') {
             this.downloadUrl = this.formData.dowloadUrl
           }
-          let jsBase = this.formData.jsBase.replace('<script>', '').replace('<script type="text/javascript">', '').replace(/<\/script>/, '')
+          // let jsBase = this.formData.jsBase.replace('<script>', '').replace('<script type="text/javascript">', '').replace(/<\/script>/, '')
           // eval(jsBase)
           sa.quick("autoTrackSinglePage",{
             $title: this.formData.title,
@@ -214,7 +214,7 @@ export default {
         if(this.isWechat){
           Toast('请点击右上角按钮,选择在浏览器中打开')
         }else{
-          theUrl = downloadUrl
+          theUrl = this.downloadUrl
           sa.track('WebDownloadClick', {
             target: this.formData.channelRemark,
             url: location.href
