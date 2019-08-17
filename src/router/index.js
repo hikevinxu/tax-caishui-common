@@ -93,6 +93,14 @@ export default new Router({
       }
     },
     {
+      path: '/serviceDetail',
+      name: 'serviceDetail',
+      component: () => import('../views/appDetail/serviceDetail.vue'),
+      meta: {
+        title: '服务详情页'
+      }
+    },
+    {
       path: '/netError',
       name: 'netError',
       component: () => import('../views/errorPage/netError.vue'),
