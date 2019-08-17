@@ -69,7 +69,9 @@ export default {
       globalApi.channelPageObtainDetail(params).then(res => {
         if(res.code == 0) {
           this.formData = res.data
-          this.downloadUrl = this.formData.dowloadUrl
+          if (this.formData.dowloadUrl && this.formData.dowloadUrl != '') {
+            this.downloadUrl = this.formData.dowloadUrl
+          }
           sa.quick("autoTrackSinglePage",{
             $title: this.formData.title,
             appname: `${this.formData.packageName}渠道页`

@@ -68,6 +68,7 @@ export default {
       getting: false,
       captchaIns: '',
       getYZMStatus: true,
+      downloadUrl: 'https://res.caishuiyu.com/common/pkg/android/caishuiyu.apk',
       formData: {}
     }
   },
@@ -151,6 +152,9 @@ export default {
         if(res.code == 0) {
           this.formData = res.data
           document.title = this.formData.title
+          if (this.formData.dowloadUrl && this.formData.dowloadUrl != '') {
+            this.downloadUrl = this.formData.dowloadUrl
+          }
           let jsBase = this.formData.jsBase.replace('<script>', '').replace('<script type="text/javascript">', '').replace(/<\/script>/, '')
           // eval(jsBase)
           sa.quick("autoTrackSinglePage",{
@@ -210,7 +214,7 @@ export default {
         if(this.isWechat){
           Toast('请点击右上角按钮,选择在浏览器中打开')
         }else{
-          theUrl = this.formData.dowloadUrl
+          theUrl = downloadUrl
           sa.track('WebDownloadClick', {
             target: this.formData.channelRemark,
             url: location.href
