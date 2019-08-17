@@ -37,19 +37,35 @@ export default new Router({
       }
     },
     {
+      path: '/landPage',
+      name: 'landPage',
+      component: () => import('../views/downLoadPages/landPage/landPage.vue'),
+      meta: {
+        title: '财税鱼渠道页'
+      }
+    },
+    {
+      path: '/downloadAPP',
+      name: 'downloadAPP',
+      component: () => import('../views/downLoadPages/landPage/download.vue'),
+      meta: {
+        title: '财税鱼渠道页'
+      }
+    },
+    {
       path: '/agencyAccount',
       name: 'agencyAccount',
       component: () => import('../views/downLoadPages/agencyAccount.vue'),
       meta: {
-        title: '代理记账'
+        title: '代理记账推广_01'
       }
     },
     {
       path: '/kaihu',
       name: 'kaihu',
-      component: () => import('../views/downLoadPages/agencyAccount.vue'),
+      component: () => import('../views/downLoadPages/companyRegister.vue'),
       meta: {
-        title: '代理记账'
+        title: '公司注册'
       }
     },
     {
@@ -57,7 +73,7 @@ export default new Router({
       name: 'agencyAccount_2',
       component: () => import('../views/downLoadPages/agencyAccount_2.vue'),
       meta: {
-        title: '代理记账_2'
+        title: '代理记账推广_02'
       }
     },
     {
@@ -65,7 +81,7 @@ export default new Router({
       name: 'overseasRegister',
       component: () => import('../views/downLoadPages/overseasCompany.vue'),
       meta: {
-        title: '海外公司注册'
+        title: '海外注册推广_01'
       }
     },
     {
@@ -73,7 +89,31 @@ export default new Router({
       name: 'overseasRegister_2',
       component: () => import('../views/downLoadPages/overseasCompany_2.vue'),
       meta: {
-        title: '海外公司注册_2'
+        title: '海外注册推广_02'
+      }
+    },
+    {
+      path: '/overseasDownload_sgbs1cs1',
+      name: 'overseasDownload_sgbs1cs1',
+      component: () => import('../views/downLoadPages/overseasDownload_sgbs1cs1.vue'),
+      meta: {
+        title: '海外注册推广_D02'
+      }
+    },
+    {
+      path: '/overseasDownload_bdyf1cs1',
+      name: 'overseasDownload_bdyf1cs1',
+      component: () => import('../views/downLoadPages/overseasDownload_bdyf1cs1.vue'),
+      meta: {
+        title: '海外注册推广_D02'
+      }
+    },
+    {
+      path: '/overseasDownload_360pz1cs1',
+      name: 'overseasDownload_360pz1cs1',
+      component: () => import('../views/downLoadPages/overseasDownload_360pz1cs1.vue'),
+      meta: {
+        title: '海外注册推广_D02'
       }
     },
     {

@@ -61,4 +61,12 @@ export default {
   sendVerifycode (params) {
     return fetchPost('/auth/verifycode/login/send_verifycode', params)
   },
+  /**
+   * 落地页推广模版
+   * @function channelPageObtainDetail
+   * @type 'Get'
+   */
+  channelPageObtainDetail (params) {
+    return fetchGet('/api/channelPage/obtainDetail', params)
+  }
 }
