@@ -155,8 +155,10 @@ export default {
           if (this.formData.dowloadUrl && this.formData.dowloadUrl != '') {
             this.downloadUrl = this.formData.dowloadUrl
           }
-          // let jsBase = this.formData.jsBase.replace('<script>', '').replace('<script type="text/javascript">', '').replace(/<\/script>/, '')
-          // eval(jsBase)
+          if (this.formData.jsBase) {
+            let jsBase = this.formData.jsBase.replace('<script>', '').replace('<script type="text/javascript">', '').replace(/<\/script>/, '')
+            this.$emit('running', jsBase)
+          }
           sa.quick("autoTrackSinglePage",{
             $title: this.formData.title,
             appname: `${this.formData.packageName}渠道页`
@@ -193,12 +195,19 @@ export default {
       globalApi.authVerifycodeLogin(params).then(res => {
         if(res.code == 0){
           if(res.data.authInfo.newRegistration == true){
-            // eval(this.formData.jsReport)
             sa.track('WebSignUp', {
                 target: this.formData.title,
                 phone: this.phone
             })
             sa.login(res.data.authInfo.uid)
+            if (this.formData.jsReport) {
+              try {
+                eval(this.formData.jsReport)
+              }
+              catch {
+                console.log("jsReport代码 运行时报错")
+              }
+            }
           }
           Toast('恭喜您，注册成功！')
           this.$router.push('/downloadAPP?id=' + this.$route.query.id)
@@ -206,6 +215,9 @@ export default {
       })
     },
     download() {
+      if (this.formData.jsReport) {
+        eval(this.formData.jsReport)
+      }
       // 根据不同的终端，跳转到不同的地址
       var theUrl = ''
       if(this.isAndroid){
