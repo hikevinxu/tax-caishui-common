@@ -1,9 +1,16 @@
 <template>
   <div class="landPage" :style="'background: ' + formData.pageBgColor">
+    <div class="wechat" v-if="isWechat && isAndroid">
+      <p class="guide_text">点击右上角按钮，然后在弹出的菜单中，点击 <strong style="font-weight: bold">在{{isIos ? 'Safari' : '浏览器'}}中打开</strong>，即可安装</p>
+			<img class="arrow" src="@/assets/downLoadPages/the-arrow.png">
+    </div>
     <div class="container">
       <div class="head">
         <div class="banner" v-if="formData.headImg">
           <img :src="formData.headImg" alt="">
+        </div>
+        <div class="topImg" v-if="formData.topImg" :style="{'top': formData.topSpace / 36 + 'rem'}">
+          <img :src="formData.topImg" alt="">
         </div>
       </div>
       <div class="register" v-if="formData.pageType == 1">
@@ -15,28 +22,28 @@
             <van-field v-model="password" placeholder="输入验证码" />
           </div>
           <div class="getYZM">
-            <button plain type="primary" @click="getYZM"><span v-if="!getting">获取验证码</span><span v-else>{{second}}</span></button>
+            <button :style="{'border-color': formData.buttonBgColor, 'color': formData.buttonBgColor}" @click="getYZM"><span v-if="!getting">获取验证码</span><span v-else>{{second}}</span></button>
           </div>
         </div>
         <div id="captcha"></div>
         <div class="inputItem submitBtn">
-          <button type="primary" size="large" @click="register">{{formData.buttonRemark}}</button>
+          <button :style="{'background': formData.buttonBgColor}" @click="register">{{formData.buttonRemark}}</button>
         </div>
       </div>
       <div class="download" v-if="formData.pageType == 2">
         <div class="inputItem downloadBtn">
-          <button type="primary" size="large" @click="download">{{formData.buttonRemark}}</button>
+          <button :style="{'background': formData.buttonBgColor}" @click="download">{{formData.buttonRemark}}</button>
         </div>
-        <div class="buttonUnder">{{formData.buttonUnder}}</div>
+        <div v-if="formData.buttonUnder" :style="{'color': formData.buttonUnderColor}" class="buttonUnder" v-html="handleText(formData.buttonUnder)"></div>
         <div id="captcha"></div>
       </div>
       <div class="bottomImg" v-if="formData.tailImg">
         <img :src="formData.tailImg" alt="">
       </div>
       <div class="bottomCopyRight">
-        <div class="topText"><span>（以上数据均来源于杭州税牛科技有限公司）</span></div>
-        <div class="bottomText">
-          <span>Copyright 2019 | 杭州税牛科技有限公司<br />浙ICP19028668号</span>
+        <div class="topText" v-if="formData.riskInfo"><span :style="{'color': formData.riskInfoColor}" v-html="handleText(formData.riskInfo)"></span></div>
+        <div class="bottomText" v-if="formData.companyInfo">
+          <span :style="{'color': formData.companyInfoColor}" v-html="handleText(formData.companyInfo)"></span>
         </div>
       </div>
     </div>
@@ -61,6 +68,7 @@ export default {
       getting: false,
       captchaIns: '',
       getYZMStatus: true,
+      downloadUrl: 'https://res.caishuiyu.com/common/pkg/android/caishuiyu.apk',
       formData: {}
     }
   },
@@ -142,13 +150,19 @@ export default {
       }
       globalApi.channelPageObtainDetail(params).then(res => {
         if(res.code == 0) {
-          console.log(res)
           this.formData = res.data
           document.title = this.formData.title
-          sa.quick("autoTrackSinglePage",{$title: this.formData.title})
-
-          this.formData.pageType = 2
-          this.formData.buttonUnder = '1234597654321234'
+          if (this.formData.dowloadUrl && this.formData.dowloadUrl != '') {
+            this.downloadUrl = this.formData.dowloadUrl
+          }
+          if (this.formData.jsBase) {
+            let jsBase = this.formData.jsBase.replace('<script>', '').replace('<script type="text/javascript">', '').replace(/<\/script>/, '')
+            this.$emit('running', jsBase)
+          }
+          sa.quick("autoTrackSinglePage",{
+            $title: this.formData.title,
+            appname: `${this.formData.packageName}渠道页`
+          })
           this.initNECaptcha()
         }
       })
@@ -182,55 +196,59 @@ export default {
         if(res.code == 0){
           if(res.data.authInfo.newRegistration == true){
             sa.track('WebSignUp', {
-                target: '代理记账推广_01',
+                target: this.formData.title,
                 phone: this.phone
             })
             sa.login(res.data.authInfo.uid)
+            if (this.formData.jsReport) {
+              try {
+                eval(this.formData.jsReport)
+              }
+              catch {
+                console.log("jsReport代码 运行时报错")
+              }
+            }
           }
           Toast('恭喜您，注册成功！')
-          this.$router.push({name: 'downloadAPP'})
+          this.$router.push('/downloadAPP?id=' + this.$route.query.id)
         }
       })
     },
     download() {
-      // 获取终端的相关信息
-      var Terminal = {
-        // 辨别移动终端类型
-        platform : function(){
-          var u = navigator.userAgent, app = navigator.appVersion;
-          return {
-            // android终端或者uc浏览器
-            android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1,
-            // 是否为iPhone或者QQHD浏览器
-            iPhone: u.indexOf('iPhone') > -1 ,
-            // 是否iPad
-            iPad: u.indexOf('iPad') > -1,
-            weixin: u.indexOf('MicroMessenger') > -1
-          };
-        }(),
-        // 辨别移动终端的语言：zh-cn、en-us、ko-kr、ja-jp...
-        language : (navigator.browserLanguage || navigator.language).toLowerCase()
+      if (this.formData.jsReport) {
+        eval(this.formData.jsReport)
       }
-      
       // 根据不同的终端，跳转到不同的地址
-      var theUrl = '';
-      if(Terminal.platform.android){//安卓端
-        if(Terminal.platform.weixin){
-          alert('请复制链接到其他浏览器打开')
+      var theUrl = ''
+      if(this.isAndroid){
+        // 安卓端
+        console.log("安卓端")
+        if(this.isWechat){
+          Toast('请点击右上角按钮,选择在浏览器中打开')
         }else{
-          theUrl = 'https://res.caishuiyu.com/common/pkg/android/caishuiyu.apk';
-          location.href = theUrl;
-          console.log('安卓')
+          theUrl = this.downloadUrl
+          sa.track('WebDownloadClick', {
+            target: this.formData.channelRemark,
+            url: location.href
+          })
+          location.href = theUrl
         }
       } else {
-        if(Terminal.platform.iPhone){//iPhone端
-          theUrl = 'https://itunes.apple.com/cn/app/id1454790969?l=zh&ls=1&mt=8';
-        }else if(Terminal.platform.iPad){//iPad端
-          theUrl = 'https://itunes.apple.com/cn/app/id1454790969?l=zh&ls=1&mt=8';
+        if(this.isIos){
+          console.log('ios')
+          Toast('IOS暂不可下载，可前往各大安卓应用市场下载安装！感谢大家！')
+          sa.track('WebDownloadClick', {
+            target: this.formData.channelRemark,
+            url: location.href
+          })
+          theUrl = 'https://itunes.apple.com/cn/app/id1454790969?l=zh&ls=1&mt=8'
         }
-        console.log('ios')
         // location.href = theUrl;
       }
+    },
+    handleText(text) {
+      let str = text.replace(/\n/g,"<br/>")
+      return str
     }
   }
 }
@@ -238,6 +256,27 @@ export default {
 <style lang="scss" scoped>
 .landPage {
   width: 100%;
+  .wechat {
+    padding: 0 24px;
+		width: 100%;
+		height: 80px;
+		box-sizing: border-box;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+    .guide_text {
+      font-family: PingFangSC-Regular;
+      font-size: 14px;
+      color: rgba(0,0,0,1);
+      line-height: 24px;
+    }
+    .arrow {
+      margin-top: 8px;
+      width: 32px;
+      height: 31px;
+      align-self: flex-start;
+    }
+  }
   .container {
     width: 100%;
     .head {
@@ -247,6 +286,15 @@ export default {
         img {
           width: 100%;
           display: block;
+        }
+      }
+      .topImg {
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        img {
+          width: 100%;
         }
       }
     }
@@ -293,26 +341,39 @@ export default {
         button {
           width: 100%;
           height: 100%;
-          font-size: 0.12rem;
+          font-size: 12px;
           box-sizing: border-box;
           font-family: PingFangSC-Regular;
           font-weight: 400;
           color: rgba(67,100,237,1);
-          line-height: 0.40rem;
+          line-height: 40px;
           background-color: #fff;
-          border-radius: 0.03rem;
+          border-radius: 3px;
           border: 1px solid rgba(67,100,237,1);
           outline: none;
         }
       }
       .submitBtn {
         border-radius: 3px;
-        
+        button {
+          width: 100%;
+          height: 100%;
+          box-sizing: border-box;
+          font-family: PingFangSC-Regular;
+          font-size: 16px;
+          font-weight: 600;
+          color: rgba(255,255,255,1);
+          line-height: 40px;
+          background-color: #fff;
+          border-radius: 3px;
+          background: linear-gradient(0deg,rgba(52,85,239,1) 0%,rgba(104,161,245,1) 100%);
+          letter-spacing: 4px;
+          outline: none;
+        }
       }
     }
     .download {
       width:268px;
-      // height:40px;
       margin: 30px auto;
       .downloadBtn {
         border-radius: 3px;
@@ -338,6 +399,7 @@ export default {
         margin-top: 10px;
         font-family: PingFangSC-Regular;
         color: rgba(153,153,153,1);
+        line-height: 16px;
       }
     }
     .bottomImg {
@@ -364,6 +426,7 @@ export default {
           font-family: PingFangSC-Regular;
           font-weight: 400;
           color: rgba(153,153,153,1);
+          line-height: 16px;
         }
       }
       .topText {

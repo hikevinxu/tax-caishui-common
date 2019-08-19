@@ -37,6 +37,14 @@ export default new Router({
       }
     },
     {
+      path: '/csy',
+      name: 'csy',
+      component: () => import('../views/downLoadPages/landPage/landPage.vue'),
+      meta: {
+        title: '财税鱼渠道页'
+      }
+    },
+    {
       path: '/landPage',
       name: 'landPage',
       component: () => import('../views/downLoadPages/landPage/landPage.vue'),
