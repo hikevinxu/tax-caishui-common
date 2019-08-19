@@ -93,23 +93,27 @@ export default {
         }else{
           theUrl = this.downloadUrl
           console.log(theUrl)
-          sa.track('WebDownloadClick', {
-            target: this.formData.channelRemark,
-            url: location.href
-          })
+          if (this.formData.channelRemark && this.formData.channelRemark != '') {
+            sa.track('WebDownloadClick', {
+              target: this.formData.channelRemark,
+              url: location.href
+            })
+          }
           location.href = theUrl
         }
       } else {
         if(this.isIos){
           console.log('ios')
           Toast('IOS暂不可下载，可前往各大安卓应用市场下载安装！感谢大家！')
-          sa.track('WebDownloadClick', {
-            target: this.formData.channelRemark,
-            url: location.href
-          })
+          if (this.formData.channelRemark && this.formData.channelRemark != '') {
+            sa.track('WebDownloadClick', {
+              target: this.formData.channelRemark,
+              url: location.href
+            })
+          }
           theUrl = 'https://itunes.apple.com/cn/app/id1454790969?l=zh&ls=1&mt=8'
+          // location.href = theUrl
         }
-        // location.href = theUrl;
       }
     }
   }
