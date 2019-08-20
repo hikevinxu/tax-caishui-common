@@ -301,11 +301,11 @@ export default {
       background: transparent;
       overflow: hidden;
       .inputItem {
-        width:268px;
-        height:40px;
+        width: 300px;
+        height: 40px;
         border-radius: 3px;
         margin: 0 auto;
-        margin-top: 30px;
+        margin-top: 16px;
         margin-bottom: 12px;
         .van-field {
           height: 40px;
@@ -322,10 +322,10 @@ export default {
       }
       .inputItem:nth-child(2){
         margin-top: 0;
-        margin-bottom: 33px;
+        margin-bottom: 16px;
       }
       .inputItem:last-child{
-        margin-top: 28px;
+        margin-top: 16px;
       }
       .password {
         width: 160px;
@@ -372,8 +372,8 @@ export default {
       }
     }
     .download {
-      width:268px;
-      margin: 30px auto;
+      width: 300px;
+      margin: 16px auto;
       .downloadBtn {
         border-radius: 3px;
         button {
@@ -442,19 +442,19 @@ export default {
   ::-webkit-input-placeholder { /* WebKit browsers */
     font-family: PingFangSC-Light, sans-serif;
     color:rgba(153,153,153,1);
-    font-size: 12px;
+    font-size: 14px;
   }
 
   ::-moz-placeholder { /* Mozilla Firefox 19+ */
     font-family: PingFangSC-Light, sans-serif;
     color:rgba(153,153,153,1);
-    font-size: 12px;
+    font-size: 14px;
   }
 
   :-ms-input-placeholder { /* Internet Explorer 10+ */
     font-family: PingFangSC-Light, sans-serif;
     color:rgba(153,153,153,1);
-    font-size: 12px;
+    font-size: 14px;
   }
 }
 </style>
