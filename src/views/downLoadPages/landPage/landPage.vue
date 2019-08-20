@@ -216,9 +216,6 @@ export default {
       })
     },
     download() {
-      if (this.formData.jsReport) {
-        eval(this.formData.jsReport)
-      }
       // 根据不同的终端，跳转到不同的地址
       var theUrl = ''
       if(this.isAndroid){
