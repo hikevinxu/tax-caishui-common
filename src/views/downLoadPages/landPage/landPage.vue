@@ -29,6 +29,7 @@
         <div class="inputItem submitBtn">
           <button :style="{'background': formData.buttonBgColor}" @click="register">{{formData.buttonRemark}}</button>
         </div>
+        <div v-if="formData.buttonUnder" :style="{'color': formData.buttonUnderColor}" class="buttonUnder" v-html="handleText(formData.buttonUnder)"></div>
       </div>
       <div class="download" v-if="formData.pageType == 2">
         <div class="inputItem downloadBtn">
@@ -369,6 +370,15 @@ export default {
           letter-spacing: 4px;
           outline: none;
         }
+      }
+      .buttonUnder {
+        text-align: center;
+        font-size: 12px;
+        margin-top: 10px;
+        margin-bottom: 16px;
+        font-family: PingFangSC-Regular;
+        color: rgba(153,153,153,1);
+        line-height: 16px;
       }
     }
     .download {
