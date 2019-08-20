@@ -56,12 +56,12 @@ export default {
         }
       } else {
         if(Terminal.platform.iPhone){//iPhone端
-          theUrl = 'https://itunes.apple.com/cn/app/id1454790969?l=zh&ls=1&mt=8';
+          theUrl = 'https://apps.apple.com/cn/app/id1475755025';
         }else if(Terminal.platform.iPad){//iPad端
-          theUrl = 'https://itunes.apple.com/cn/app/id1454790969?l=zh&ls=1&mt=8';
+          theUrl = 'https://apps.apple.com/cn/app/id1475755025';
         }
         console.log('ios')
-        // location.href = theUrl;
+        location.href = theUrl;
       }
     }
   }

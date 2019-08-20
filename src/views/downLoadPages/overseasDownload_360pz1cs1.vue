@@ -68,14 +68,13 @@ export default {
       } else {
         if(this.isIos){
           console.log('ios')
-          Toast('IOS暂不可下载，可前往各大安卓应用市场下载安装！感谢大家！')
-          theUrl = 'https://itunes.apple.com/cn/app/id1454790969?l=zh&ls=1&mt=8'
+          theUrl = 'https://apps.apple.com/cn/app/id1475755025'
           sa.track('WebDownloadClick', {
             target: '海外注册推广_D02',
             url: location.href
           })
+          location.href = theUrl
         }
-        // location.href = theUrl;
       }
     }
   }

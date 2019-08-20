@@ -210,7 +210,7 @@ export default {
             }
           }
           Toast('恭喜您，注册成功！')
-          this.$router.push('/downloadAPP?id=' + this.$route.query.id)
+          this.$router.push('/downloadAPP?id=' + this.$route.query.id + '&channelRemark=' + this.$route.query.channelRemark)
         }
       })
     },
@@ -236,14 +236,13 @@ export default {
       } else {
         if(this.isIos){
           console.log('ios')
-          Toast('IOS暂不可下载，可前往各大安卓应用市场下载安装！感谢大家！')
           sa.track('WebDownloadClick', {
             target: this.formData.channelRemark,
             url: location.href
           })
-          theUrl = 'https://itunes.apple.com/cn/app/id1454790969?l=zh&ls=1&mt=8'
-        }
-        // location.href = theUrl;
+          theUrl = 'https://apps.apple.com/cn/app/id1475755025'
+          location.href = theUrl
+        } 
       }
     },
     handleText(text) {
