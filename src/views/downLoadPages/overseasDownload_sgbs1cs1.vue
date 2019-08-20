@@ -55,9 +55,9 @@ export default {
       if(this.isAndroid){
         // 安卓端
         console.log("安卓端")
-        if(this.isWechat){
+        if (this.isWechat){
           Toast('请点击右上角按钮,选择在浏览器中打开')
-        }else{
+        } else {
           theUrl = 'https://res.caishuiyu.com/common/pkg/android/caishuiyu_sgbs1cs1.apk'
           sa.track('WebDownloadClick', {
             target: '海外注册推广_D02',
@@ -68,14 +68,13 @@ export default {
       } else {
         if(this.isIos){
           console.log('ios')
-          Toast('IOS暂不可下载，可前往各大安卓应用市场下载安装！感谢大家！')
           sa.track('WebDownloadClick', {
             target: '海外注册推广_D02',
             url: location.href
           })
-          theUrl = 'https://itunes.apple.com/cn/app/id1454790969?l=zh&ls=1&mt=8'
+          theUrl = 'https://apps.apple.com/cn/app/id1475755025'
+          location.href = theUrl
         }
-        // location.href = theUrl;
       }
     }
   }
