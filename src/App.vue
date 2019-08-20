@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <keep-alive :include="keepAlive">
-      <router-view />
+      <router-view v-on:running="running" />
     </keep-alive>
   </div>
 </template>
@@ -14,6 +14,16 @@ export default {
     }
   },
   created(){
+  },
+  methods: {
+    running(jsBase) {
+      try {
+        eval(jsBase)
+      }
+      catch {
+        console.log("jsBase代码 运行时报错")
+      }
+    }
   }
 }
 </script>
