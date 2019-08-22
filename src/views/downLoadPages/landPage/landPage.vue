@@ -201,13 +201,13 @@ export default {
                 phone: this.phone
             })
             sa.login(res.data.authInfo.uid)
-            if (this.formData.jsReport) {
-              try {
-                eval(this.formData.jsReport)
-              }
-              catch {
-                console.log("jsReport代码 运行时报错")
-              }
+          }
+          if (this.formData.jsReport) {
+            try {
+              eval(this.formData.jsReport)
+            }
+            catch {
+              console.log("jsReport代码 运行时报错")
             }
           }
           Toast('恭喜您，注册成功！')
