@@ -1,15 +1,15 @@
 <template>
-  <div class="serviceDetail" @change="onChange">
+  <div class="serviceDetail" >
     <div class="companyInfo">
-      <h4 class="title">代理记账公司 杭州0元公司注册提供注册地址 专业代理记账</h4>
+      <h4 class="title">{{data.title}}</h4>
       <div class="imgList">
-        <div class="img" v-for="(item,index) in imgList" :key="index">
-          <img :src="item" alt="">
+        <div class="img" v-for="(item,index) in data.imgs" :key="index" @click="preview(index)">
+          <img :src="item.img" alt="">
         </div>
       </div>
       <div class="info">
         <div class="areaContent">
-          <div class="area">
+          <!-- <div class="area">
             <div class="label">
               <img style="display:block;width:16px;height: 16px;margin-right: 8px;" src="@/assets/appDetail/ic_firm_region@3x.png" alt="">
               <span>服务区域</span>
@@ -17,50 +17,56 @@
             <div class="areaList" >
               <span v-for="(item,index) in areaList" :key="index">{{item}}</span>
             </div>
-          </div>
+          </div> -->
           <div class="adress">
             <img style="display:block;width:16px;height: 16px;margin-right: 8px;" src="@/assets/appDetail/firm_ic_address@3x.png" alt="">
             <div class="adressText">
-              <span>浙江省杭州市西湖区双龙街199号金色西溪B座8楼</span>
-              <span style="color: #FFAD71;">距您612m</span>
+              <span>{{data.company.address}}</span>
+              <!-- <span style="color: #FFAD71;">距您612m</span> -->
             </div>
           </div>
         </div>
-        <div class="phone">
+        <div class="phone" @click="call">
           <img style="display:block;width: 24px; height: 24px;" src="@/assets/appDetail/ic_firm_call@3x.png" alt="">
         </div>
       </div>
     </div>
-    <div class="serviceIntroduction">
-      <h4 class="title">服务介绍</h4>
-      <div class="content" v-html="content"></div>
-    </div>
-    <div class="offer">
-      <h4 class="title">服务报价</h4>
-      <div class="tabel">
-        <div class="header">
-          <span class="name">服务项</span>
-          <span class="price">报价</span>
-        </div>
-        <div class="serviceList">
-          <div class="service" v-for="(item,index) in serviceList" :key="index">
-            <span class="name">{{item.name}}</span>
-            <span class="price">{{item.price}}</span>
+    <div class="hidden" id="detail" ref="detailMore">
+      <div class="serviceIntroduction">
+        <h4 class="title">服务介绍</h4>
+        <div class="content" v-html="data.introduce"></div>
+      </div>
+      <div class="offer">
+        <h4 class="title">服务报价</h4>
+        <div class="tabel">
+          <div class="header">
+            <span class="name">服务项</span>
+            <span class="price">报价</span>
+          </div>
+          <div class="serviceList">
+            <div class="service" v-for="(item,index) in data.items" :key="index">
+              <div class="service_name">{{item.name}}</div>
+              <div class="service_price">{{item.price}}</div>
+            </div>
           </div>
         </div>
       </div>
+      <div class="close" v-show="showMore" @click="close">
+        <span>点击收起</span>
+        <img src="@/assets/appDetail/ic_arrow_drop_up@3x.png" alt="">
+      </div>
+      <div class="loadmore" v-show="!showMore && showBtn" @click="moreDetail">
+        <span>查看更多</span>
+        <img style="display:block;width:12px;height: 12px;margin-right: 8px;" src="@/assets/appDetail/ic_arrow_drop_down@3x.png" alt="">
+      </div>
     </div>
-    <div class="close">
-      <span>点击收起</span>
-      <img src="@/assets/appDetail/ic_arrow_drop_up@3x.png" alt="">
-    </div>
-    <div class="company">
+    <div class="company" @click="goCompany">
       <div class="companyInfo_footer">
-        <img class="logo" :src="logo" alt="">
+        <img class="logo" :src="data.company.logo" alt="">
         <div class="info">
-          <span class="name">杭州顶呱呱会计师事务所<img :src="levelSrc" alt="" srcset=""></span>
+          <span class="name">{{data.company.name}}<img :src="levelSrc" alt="" srcset=""></span>
           <div class="businessList">
-            <span class="business" v-for="(item,index) in businessList" :key="index">{{item.name}}</span>
+            <span class="business" >{{data.company.levelLabel}}</span>
           </div>
         </div>
       </div>
@@ -71,65 +77,138 @@
 <script>
 import Vue from 'vue'
 import { Toast } from 'vant'
+import api from '@/api/api'
+import { nativeJumpTo, nativeClose, nativeSetShare,nativePostMessage  } from '@/utils/nativeFunction'
+import { pathList } from '@/utils/global'
 Vue.use(Toast)
 export default {
   data () {
     return {
-      imgList: [
-        require('../../assets/global/bookkeeping_head.png'),
-        require('../../assets/global/bookkeeping_head.png'),
-        require('../../assets/global/bookkeeping_head.png'),
-        require('../../assets/global/bookkeeping_head.png'),
-        require('../../assets/global/bookkeeping_head.png'),
-        require('../../assets/global/bookkeeping_head.png'),
-      ],
-      areaList: [
-        '余杭','西湖','拱墅','上城','建德','下城','下城',
-        '余杭','西湖',
-      ],
-      content: '<h1>养老金占工资50%是什么水平？</h1><p>养老金占工资的比例，用专业的术语就是养老金替代率。那么养老金替代率50%是什么水平呢？</p><div class="pgc-img"><p class="pgc-img-caption">目前全国企业退休人员的养老金替代率大约是40%左右，所以50%的替代率是略高于企业退休人员的替代率平均水平的。</p></div><p>举个例子，假如你的月工资有6000元，按照50%的替代率计算，养老金可以达到3000元，3000元的养老金水平是高于目前的全国企业退休人员的平均养老水平的。</p><p>按照目前思之想之的工资，如果养老金占工资的50%的话，养老金可以拿到4、5千元，这个水平大概是全国平均养老金水平的两倍，也超过了北京的近4000元的养老金水平，还是比较可观的数目。</p><h1>&nbsp;</h1><h1>提前退休会导致养老金减少</h1><p>提前退休，会影响养老金。退休人员的养老金一般包括基础养老金和个人账户养老金，其中基础养老金与养老保险缴费年限挂钩，每缴费满1年发给1%。个人账户养老金也与缴费水平和缴费年限挂钩。</p><div class="pgc-img"><p class="pgc-img-caption">提前退休，就会少缴几年的养老保险，缴费年限将会减少，个人账户养老金也会少几年的积累，所以相对正常退休，提前退休会导致养老金基数减少。</p></div>',
+      imgList: [],
+      content: '',
+      showMore: false,
+      showBtn: true,
       serviceList: [
-        {
-          name: '服务项目1/项',
-          price: '1200元'
-        },
-        {
-          name: '服务项目2/项',
-          price: '1800元'
-        },
-        {
-          name: '服务项目3/项',
-          price: '2200元'
-        }
       ],
-      businessList: [
-        {
-          name: '公司注册'
-        },
-        {
-          name: '公司注册'
-        },
-        {
-          name: '公司注册'
-        },
-      ],
-      logo: require('../../assets/appDetail/V2_20@3x.png'),
+      businessList: [],
+      logo: '',
       levelSrc: require('../../assets/appDetail/V1_12@3x.png'),
-      level: 3
+      level: 3,
+      data: {
+        company:{
+          address: '',
+          logo: '',
+          levelLabel: ''
+        }
+      }
     }
   },
   created(){
-    if(this.level == 1){
+    if(this.$route.query.id){
+      this.isEdit = true
+      let data = {
+        id: this.$route.query.id
+      }
+      this.getDetail(data)
+    }
+    if(this.data.company.level == 1){
       this.levelSrc = require('../../assets/appDetail/V1_12@3x.png')
-    }else if(this.level == 2){
+    }else if(this.data.company.level == 2){
       this.levelSrc = require('../../assets/appDetail/V2_20@3x.png')
-    }else if(this.level == 3){
+    }else if(this.data.company.level == 3){
       this.levelSrc = require('../../assets/appDetail/V3_20@3x.png')
     }
+  },
+  mounted(){
+    setTimeout(()=>{
+    // console.log(document.getElementById('detail').clientHeight)
+     console.log(this.$refs.detailMore.clientHeight)
+     if(this.$refs.detailMore.offsetHeight < 288){
+        this.showBtn = false
+      }else {
+        this.showBtn = true
+      }
+    },2000)
+    // window.onresize = function() {
+    //   console.log(1111)
+    // }
   },
   methods: {
     onChange(index) {
       Toast('当前 Swipe 索引：' + index);
+    },
+    getDetail(data){
+      api.serviceDetail(data).then(res => {
+        console.log(res)
+        if(res.code == 0){
+          if(!res.data || res.data.length == 0){
+            return
+          }else{
+            this.data = res.data
+            let imgList = []
+            for (let i = 0; i < res.data.imgs.length; i++) {
+              imgList.push(res.data.imgs[i].img)
+            }
+            this.imgList = imgList
+
+            //发送imAccid
+            let data = {
+              imAccid: this.data.company.imAccid,
+              name: this.data.company.name,
+              phone: this.data.company.phones[0],
+              title: this.data.title
+            }
+            let jsonMessage = {
+              data: data,
+              handlerName: 'imAccid',
+              callbackId: ''
+            }
+            nativePostMessage(jsonMessage)
+          }
+        }
+      })
+    },
+    preview(index){
+      console.log(index)
+      let data = {
+        index: index,
+        imgs: this.imgList
+      }
+      let jsonMessage = {
+        data: data,
+        handlerName: 'showImgs',
+        callbackId: ''
+      }
+      nativePostMessage(jsonMessage)
+    },
+    call(){
+      let data = {
+        phone: this.data.company.phones[0]
+      }
+      let jsonMessage = {
+        data: data,
+        handlerName: 'call',
+        callbackId: ''
+      }
+      nativePostMessage(jsonMessage)
+    },
+    goCompany(){
+      let data = {
+        pagePath: pathList.companyDetailPath,
+        pageArgs: {firmId: this.data.company.id + ''}
+      }
+      nativeJumpTo(data)
+    },
+    moreDetail(){
+      this.$refs.detailMore.style.overflow = 'auto'
+      this.$refs.detailMore.style.maxHeight = 'none'
+      this.$refs.detailMore.style.height = 'auto'
+      this.showMore = true
+    },
+    close(){
+      this.$refs.detailMore.style.maxHeight = '288px'
+      this.$refs.detailMore.style.overflow = 'hidden'
+      this.showMore = false
     }
   }
 }
@@ -139,16 +218,36 @@ export default {
   height: 100%;
   width: 100%;
   font-family: PingFangSC-Regular;
+  position: relative;
   padding-bottom: 32px;
+  .loadmore{
+    width: 100%;
+    height: 66px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.80) 0%, #FFFFFF 67%);
+    // border-radius: 3PX;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: rgba(0,0,0,0.60);
+    cursor: pointer;
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    z-index: 99;
+  }
   .companyInfo{
     width: 100%;
     padding-top: 16px;
     .title{
+      font-family: PingFangSC-Medium;
       display: block;
       width: 299px;
       font-size: 20px;
       color: rgba(0,0,0,0.87);
       margin-left: 24px;
+      line-height: 26px;
       // margin-right: auto;
     }
     .imgList{
@@ -177,44 +276,15 @@ export default {
     }
     .info{
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       margin-left: 24px;
+      margin-top: 16px;
       .areaContent{
         border-right: 1px solid rgba(0,0,0,0.04);
         padding-right: 10px;
-        margin-top: 16px;
-        .area{
-          display: flex;
-          align-items: flex-start;
-          
-          .label{
-            display: flex;
-            align-items: center;
-            border-right: 1px solid rgba(0,0,0,0.04);
-            padding-right: 11px;
-            font-size: 12px;
-            color: rgba(0,0,0,0.38);
-          }
-          .areaList{
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            margin-left: 10px;
-            width: 160px;
-            span{
-              font-size: 12px;
-              color: rgba(0,0,0,0.87);
-              display: block;
-              margin-right: 8px;
-              // margin-bottom: 4px;
-              line-height: 18px;
-            }
-          }
-        }
         .adress{
           display: flex;
           align-items: flex-start;
-          margin-top: 8px;
           .adressText{
             width: 232px;
             display: flex;
@@ -223,7 +293,6 @@ export default {
             span{
               font-size: 12px;
               color: rgba(0,0,0,0.38);
-              // margin-bottom: 4px;
               line-height: 18px;
             }
           }
@@ -236,6 +305,11 @@ export default {
         justify-content: center;
       }
     }
+  }
+  .hidden{
+    max-height: 288px;
+    overflow: hidden;
+    position: relative;
   }
   .serviceIntroduction{
     width: 100%;
@@ -279,6 +353,7 @@ export default {
         .name{
           display: flex;
           width: 200px;
+          box-sizing: border-box;
           border: 1px solid rgba(0,0,0,0.08);
           border-top-left-radius: 2px;
           align-items: center;
@@ -290,6 +365,7 @@ export default {
         .price{
           display: flex;
           width: 110px;
+          box-sizing: border-box;
           border: 1px solid rgba(0,0,0,0.08);
           border-left: 0;
           border-top-right-radius: 2px;
@@ -306,27 +382,34 @@ export default {
         flex-flow: column;
         .service{
           width: 100%;
-          display: flex;
+          display: -webkit-box;
+          -webkit-box-align: none;
           align-items: center;
-          height: 40px;
+          min-height: 40px;
           background: rgba(255,255,255,0.02);
-          .name{
+          .service_name{
             font-family: PingFangSC-Light;
             display: flex;
             width: 200px;
+            box-sizing: border-box;
             border: 1px solid rgba(0,0,0,0.08);
             border-top: 0;
             border-top-left-radius: 2px;
             align-items: center;
             justify-content: center;
             font-size: 14px;
-            height: 100%;
+            height: auto;
             color: rgba(0,0,0,0.87);
+            padding: 5px;
+            white-space:normal; 
+            word-break:break-all;
+            line-height: 18px;
           }
-          .price{
+          .service_price{
             font-family: PingFangSC-Light;
             display: flex;
             width: 110px;
+            box-sizing: border-box;
             border: 1px solid rgba(0,0,0,0.08);
             border-left: 0;
             border-top: 0;
@@ -335,7 +418,11 @@ export default {
             justify-content: center;
             font-size: 14px;
             color: rgba(0,0,0,0.87);
-            height: 100%;
+            height: auto;
+            padding: 5px;
+            white-space:normal;
+            word-break:break-all;
+            line-height: 18px;
           }
         }
       }
@@ -349,6 +436,7 @@ export default {
     margin-left: auto;
     margin-right: auto;
     margin-top: 25px;
+    cursor: pointer;
     img{
       display: block;
       width: 12px;
@@ -398,6 +486,7 @@ export default {
           font-size: 14px;
           color: rgba(0,0,0,0.60);
           margin-bottom: 8px;
+          line-height: 18px;
           img{
             display: block;
             width: 16px;

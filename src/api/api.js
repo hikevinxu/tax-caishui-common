@@ -124,5 +124,13 @@ export default {
    */
   serviceDelete (data) {
     return fetchPost('/service/delete', data)
+  },
+  /**
+   * 服务详情
+   * @function refreshToken
+   * @type 'POST'
+   */
+  serviceDetail (data) {
+    return fetchGet('/service/detail', data)
   }
 }

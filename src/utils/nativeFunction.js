@@ -104,3 +104,13 @@ export function nativeJumpTo (params) {
 export function nativeSetShare (params) {
   brigeNativeByJavascript('setShare', params)
 }
+
+/**
+ * 12.公用方法
+ * @function nativeShare
+ * @param pagePath   // main/home/queryService/company (公司详情页)
+ * @param pageArgs   
+ */
+export function nativePostMessage (params) {
+  brigeNativeByJavascript('postMessage', params)
+}
