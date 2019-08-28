@@ -75,11 +75,13 @@ export default {
       companyList: [
         {
           img: require('../../assets/global/full_list_shhccwzxyxgs.png'),
-          firmId: '178983'
+          firmId: '178983',
+          csFirmId: '9863'
         },
         {
           img: require('../../assets/global/full_list_zgxjpswglzxgs.png'),
-          firmId: '230323'
+          firmId: '230323',
+          csFirmId: '76172'
         },
       ],
       valuableCompanyList: [
@@ -141,7 +143,8 @@ export default {
           companyList: [
             {
               img: require('../../assets/global/hot_list_hk_05.png'),
-              firmId: '230212'
+              firmId: '230212',
+              csFirmId: '76175'
             },
             {
               img: require('../../assets/global/hot_list_hk_06.png'),
@@ -181,19 +184,43 @@ export default {
       this.countriesList = item.companyList
     },
     goCompany(){
-      let data = {
-        pagePath: pathList.companyDetailPath,
-        pageArgs: {firmId: '230282'}
+      if (process.env.VUE_APP_DEPLOY == 'prod') {
+        let data = {
+          pagePath: pathList.companyDetailPath,
+          pageArgs: {firmId: '230282'}
+        }
+        nativeJumpTo(data)
+      } else {
+        let data = {
+          pagePath: pathList.companyDetailPath,
+          pageArgs: {firmId: '12190'}
+        }
+        nativeJumpTo(data)
       }
-      nativeJumpTo(data)
+      
     },
     goCompanyRecommend(item){
-      let data = {
-        pagePath: pathList.companyDetailPath,
-        pageArgs: {firmId: item.firmId}
-      }
-      console.log(data)
-      nativeJumpTo(data)
+      if (process.env.VUE_APP_DEPLOY == 'prod') {
+        let data = {
+          pagePath: pathList.companyDetailPath,
+          pageArgs: {firmId: item.firmId}
+        }
+         nativeJumpTo(data)
+      } else {
+        if(item.csFirmId){
+          let data = {
+            pagePath: pathList.companyDetailPath,
+            pageArgs: {firmId: item.csFirmId}
+          }
+           nativeJumpTo(data)
+        }else {
+          let data = {
+            pagePath: pathList.companyDetailPath,
+            pageArgs: {firmId: item.firmId}
+          }
+           nativeJumpTo(data)
+        }
+      }    
     },
     close() {
       nativeClose()
