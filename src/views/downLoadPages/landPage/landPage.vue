@@ -29,6 +29,7 @@
         <div class="inputItem submitBtn">
           <button :style="{'background': formData.buttonBgColor}" @click="register">{{formData.buttonRemark}}</button>
         </div>
+        <div v-if="formData.buttonUnder" :style="{'color': formData.buttonUnderColor}" class="buttonUnder" v-html="handleText(formData.buttonUnder)"></div>
       </div>
       <div class="download" v-if="formData.pageType == 2">
         <div class="inputItem downloadBtn">
@@ -200,13 +201,13 @@ export default {
                 phone: this.phone
             })
             sa.login(res.data.authInfo.uid)
-            if (this.formData.jsReport) {
-              try {
-                eval(this.formData.jsReport)
-              }
-              catch {
-                console.log("jsReport代码 运行时报错")
-              }
+          }
+          if (this.formData.jsReport) {
+            try {
+              eval(this.formData.jsReport)
+            }
+            catch {
+              console.log("jsReport代码 运行时报错")
             }
           }
           Toast('恭喜您，注册成功！')
@@ -215,9 +216,6 @@ export default {
       })
     },
     download() {
-      if (this.formData.jsReport) {
-        eval(this.formData.jsReport)
-      }
       // 根据不同的终端，跳转到不同的地址
       var theUrl = ''
       if(this.isAndroid){
@@ -301,11 +299,11 @@ export default {
       background: transparent;
       overflow: hidden;
       .inputItem {
-        width:268px;
-        height:40px;
+        width: 300px;
+        height: 40px;
         border-radius: 3px;
         margin: 0 auto;
-        margin-top: 30px;
+        margin-top: 16px;
         margin-bottom: 12px;
         .van-field {
           height: 40px;
@@ -322,10 +320,10 @@ export default {
       }
       .inputItem:nth-child(2){
         margin-top: 0;
-        margin-bottom: 33px;
+        margin-bottom: 16px;
       }
       .inputItem:last-child{
-        margin-top: 28px;
+        margin-top: 16px;
       }
       .password {
         width: 160px;
@@ -370,10 +368,19 @@ export default {
           outline: none;
         }
       }
+      .buttonUnder {
+        text-align: center;
+        font-size: 12px;
+        margin-top: 10px;
+        margin-bottom: 16px;
+        font-family: PingFangSC-Regular;
+        color: rgba(153,153,153,1);
+        line-height: 16px;
+      }
     }
     .download {
-      width:268px;
-      margin: 30px auto;
+      width: 300px;
+      margin: 16px auto;
       .downloadBtn {
         border-radius: 3px;
         button {
@@ -442,19 +449,19 @@ export default {
   ::-webkit-input-placeholder { /* WebKit browsers */
     font-family: PingFangSC-Light, sans-serif;
     color:rgba(153,153,153,1);
-    font-size: 12px;
+    font-size: 14px;
   }
 
   ::-moz-placeholder { /* Mozilla Firefox 19+ */
     font-family: PingFangSC-Light, sans-serif;
     color:rgba(153,153,153,1);
-    font-size: 12px;
+    font-size: 14px;
   }
 
   :-ms-input-placeholder { /* Internet Explorer 10+ */
     font-family: PingFangSC-Light, sans-serif;
     color:rgba(153,153,153,1);
-    font-size: 12px;
+    font-size: 14px;
   }
 }
 </style>
