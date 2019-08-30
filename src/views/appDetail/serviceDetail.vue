@@ -36,7 +36,7 @@
         <h4 class="title">服务介绍</h4>
         <div class="content" v-html="data.introduce"></div>
       </div>
-      <div class="offer">
+      <div class="offer" v-show="data.items && data.items.length != 0">
         <h4 class="title">服务报价</h4>
         <div class="tabel">
           <div class="header">

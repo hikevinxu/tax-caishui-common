@@ -259,7 +259,7 @@ export default {
         if(res.code == 0){
           if(res.data.authInfo.newRegistration == true){
             sa.track('WebSignUp', {
-                target: this.formData.title,
+                target: this.formData.channelRemark,
                 phone: this.phone
             })
             sa.login(res.data.authInfo.uid)
