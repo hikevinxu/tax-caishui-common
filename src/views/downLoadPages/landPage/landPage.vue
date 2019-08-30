@@ -66,12 +66,17 @@
             <div class="select"><input v-model="address" type="text" placeholder="如：杭州-西湖区"></div>
           </div>
           <div class="form_item">
-            <label>联系电话<span>*</span></label>
-            <div class="select"><input maxlength="11" v-model="tel" type="tel" placeholder="请输入"></div>
-          </div>
-          <div class="form_item">
             <label>如何称呼</label>
             <div class="select"><input v-model="name" type="text" placeholder="请输入"></div>
+          </div>
+          <div class="form_item">
+            <label>手机号码<span>*</span></label>
+            <div class="select"><input maxlength="11" v-model="phone" type="tel" placeholder="请输入"></div>
+          </div>
+          <div class="form_item" v-if="phone.length == 11">
+            <label>短信验证码<span>*</span></label>
+            <div class="select"><input maxlength="11" v-model="password" type="tel" placeholder="请输入"></div>
+            <div class="intentionCollect_getYZM" @click="intentionGetYZM"><span v-if="!getting">获取验证码</span><span v-else>{{second}}后重新获取</span></div>
           </div>
           <div id="captcha"></div>
         </div>
@@ -123,7 +128,8 @@ export default {
       intention: '',
       address: '',
       tel: '',
-      name: ''
+      name: '',
+      getYZMType: ''
     }
   },
   created() {
@@ -158,34 +164,65 @@ export default {
             that.captchaIns.close()
             if (data) {
               console.log(data)
-              let params = {
-                clientType: 'h5',
-                verifyType: 'sms',
-                captchaId: config.captchaId,
-                captchaValidate: data.validate,
-                phone: that.phone
-              }
-              that.captchaIns && that.captchaIns.refresh()
-              globalApi.sendVerifycode(params).then(res => {
-                if (res.code === 0) {
-                  if (!that.getting) {
-                    that.getting = true
-                    let timer = setInterval(() => {
-                      that.second--
-                      if (that.second <= 0) {
-                        clearInterval(timer)
-                        that.second = 60
-                        that.getting = false
-                        that.getYZMStatus = true
-                      }
-                    }, 1000)
-                  }
+              if (that.getYZMType == 'register') {
+                let params = {
+                  clientType: 'h5',
+                  verifyType: 'sms',
+                  captchaId: config.captchaId,
+                  captchaValidate: data.validate,
+                  phone: that.phone
                 }
-              }).catch(err => {
-                that.second = 60
-                that.getting = false
-                that.getYZMStatus = true
-              })
+                that.captchaIns && that.captchaIns.refresh()
+                globalApi.sendVerifycode(params).then(res => {
+                  if (res.code === 0) {
+                    if (!that.getting) {
+                      that.getting = true
+                      let timer = setInterval(() => {
+                        that.second--
+                        if (that.second <= 0) {
+                          clearInterval(timer)
+                          that.second = 60
+                          that.getting = false
+                          that.getYZMStatus = true
+                        }
+                      }, 1000)
+                    }
+                  }
+                }).catch(err => {
+                  that.second = 60
+                  that.getting = false
+                  that.getYZMStatus = true
+                })
+              } else if(that.getYZMType == 'intention') {
+                let params = {
+                  clientType: 'h5',
+                  verifyType: 'sms',
+                  captchaId: config.captchaId,
+                  captchaValidate: data.validate,
+                  phone: that.phone
+                }
+                that.captchaIns && that.captchaIns.refresh()
+                globalApi.channelPageObtainFormSendVerifycode(params).then(res => {
+                  if(res.code == 0){
+                    if (!that.getting) {
+                      that.getting = true
+                      let timer = setInterval(() => {
+                        that.second--
+                        if (that.second <= 0) {
+                          clearInterval(timer)
+                          that.second = 60
+                          that.getting = false
+                          that.getYZMStatus = true
+                        }
+                      }, 1000)
+                    }
+                  }
+                }).catch(err => {
+                  that.second = 60
+                  that.getting = false
+                  that.getYZMStatus = true
+                })
+              }
             }
           } else {
             return
@@ -233,6 +270,18 @@ export default {
           Toast('请输入11位合法手机号！')
           return
         }
+        this.getYZMType = 'register'
+        this.captchaIns && this.captchaIns.verify()
+      }
+    },
+    intentionGetYZM() {
+      if (this.getYZMStatus) {
+        this.getYZMStatus = false
+        if (this.phone.length != 11) {
+          Toast('请输入11位合法手机号！')
+          return
+        }
+        this.getYZMType = 'intention'
         this.captchaIns && this.captchaIns.verify()
       }
     },
@@ -314,21 +363,26 @@ export default {
         Toast('请先填写城市/地区！')
         return
       }
-      if(this.tel == '') {
+      if(this.phone == '') {
         Toast('请先填写联系方式！')
         return
       }
 
       let reg = new RegExp(/1[0-9]{10}/)
 
-      if(this.tel.length < 11 || !reg.test(this.tel)) {
+      if(this.phone.length < 11 || !reg.test(this.phone)) {
         Toast('请输入11位合法手机号!')
+        return
+      }
+
+      if(!this.password || this.password == '') {
+        Toast('请输入短信验证码!')
         return
       }
 
       let formJson = {
         country: this.formData.formType == 1 ? this.countries : this.address,
-        phone: this.tel
+        phone: this.phone
       }
 
       let subject = this.formData.formTypeName + ',' + formJson.country
@@ -346,13 +400,17 @@ export default {
       subject = subject + ',' + formJson.phone
 
       let params = {
+        clientType: 'h5',
+        verifyType: 'sms',
+        verifycode: this.password,
+        phone: this.phone,
         pageId: this.$route.query.id,
         pageType: this.formData.pageType,
         formType: this.formData.formType,
         formJson: JSON.stringify(formJson)
       }
 
-      globalApi.channelPageObtainFormSave(params).then(res => {
+      globalApi.channelPageObtainFormValidateSave(params).then(res => {
         if(res.code == 0) {
           Toast('提交成功!')
           sa.track('WebIntentionInfoSubmit', {
@@ -570,6 +628,7 @@ export default {
         margin: 0 auto;
         .form_item {
           margin-bottom: 20px;
+          position: relative;
           label {
             font-family: PingFangSC-Regular;
             font-size: 14px;
@@ -589,8 +648,19 @@ export default {
             input {
               width: 100%;
               background-color: #fbfbfb;
-              // color: rgba(52,85,239,1);
             }
+          }
+          .intentionCollect_getYZM {
+            height: 40px;
+            line-height: 20px;
+            padding: 10px;
+            box-sizing: border-box;
+            color: #666;
+            font-size: 14px;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            cursor: pointer;
           }
         }
       }

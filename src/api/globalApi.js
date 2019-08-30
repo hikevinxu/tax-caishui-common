@@ -71,12 +71,30 @@ export default {
     return fetchGet('/api/channelPage/obtainDetail', params)
   },
   /**
-   * 落地页推广模版-意向收集
+   * 发送验证码
+   * @function channelPageObtainFormSendVerifycode
+   * @type 'POST'
+   */
+  channelPageObtainFormSendVerifycode (params) {
+    return fetchPost('/api/channelPage/obtainForm/send_verifycode', params)
+  },
+  /**
+   * 落地页推广模版-意向收集(不需要短信验证)
    * @function channelPageObtainFormSave
    * @type 'Post'
    */
   channelPageObtainFormSave (params) {
     let paramsString = qs.stringify(params)
     return fetchPost('/api/channelPage/obtainForm/save', paramsString)
-  }
+  },
+  
+  /**
+   * 落地页推广模版-意向收集(需要短信验证)
+   * @function channelPageObtainFormSave
+   * @type 'Post'
+   */
+  channelPageObtainFormValidateSave (params) {
+    let paramsString = qs.stringify(params)
+    return fetchPost('/api/channelPage/obtainForm/validate/save', paramsString)
+  },
 }
