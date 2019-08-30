@@ -63,7 +63,7 @@
           </div>
           <div class="form_item"  v-if="formData.formType == 2">
             <label>城市/地区<span>*</span></label>
-            <div class="select"><input v-model="address" type="tel" placeholder="如：杭州-西湖区"></div>
+            <div class="select"><input v-model="address" type="text" placeholder="如：杭州-西湖区"></div>
           </div>
           <div class="form_item">
             <label>联系电话<span>*</span></label>
@@ -580,8 +580,10 @@ export default {
           }
           .select {
             height: 40px;
+            box-sizing: border-box;
             border-bottom: 1px solid #ccc;
-            line-height: 40px;
+            line-height: 20px;
+            padding: 10px 0px;
             font-size: 14px;
             color: #666666;
             input {
