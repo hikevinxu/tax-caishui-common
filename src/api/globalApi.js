@@ -1,4 +1,5 @@
 import { fetchPost, fetchGet } from './axios'
+import qs from 'qs'
 
 export default {
   /**
@@ -68,5 +69,14 @@ export default {
    */
   channelPageObtainDetail (params) {
     return fetchGet('/api/channelPage/obtainDetail', params)
+  },
+  /**
+   * 落地页推广模版-意向收集
+   * @function channelPageObtainFormSave
+   * @type 'Post'
+   */
+  channelPageObtainFormSave (params) {
+    let paramsString = qs.stringify(params)
+    return fetchPost('/api/channelPage/obtainForm/save', paramsString)
   }
 }

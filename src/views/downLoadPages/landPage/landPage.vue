@@ -26,6 +26,12 @@
           </div>
         </div>
         <div id="captcha"></div>
+        <!-- <div class="inputItem xieyi" v-if="phone.length == 11">
+          <div class="xieyiInner">
+             <van-checkbox :checked-color="formData.buttonBgColor" v-model="checked">我已阅读并同意</van-checkbox>
+             <span :style="{'color': formData.buttonBgColor}" class="agreement" @click="jumpAgreement">《用户服务协议》</span>
+          </div>
+        </div> -->
         <div class="inputItem submitBtn">
           <button :style="{'background': formData.buttonBgColor}" @click="register">{{formData.buttonRemark}}</button>
         </div>
@@ -37,6 +43,42 @@
         </div>
         <div v-if="formData.buttonUnder" :style="{'color': formData.buttonUnderColor}" class="buttonUnder" v-html="handleText(formData.buttonUnder)"></div>
         <div id="captcha"></div>
+      </div>
+      <div class="intentionCollect" v-if="formData.pageType == 3">
+        <div class="intentionCollect_form">
+          <div class="title" v-if="formData.formTitle">{{formData.formTitle}}</div>
+          <div class="form_item" v-if="formData.formType == 1">
+            <label>国家/地区<span>*</span></label>
+            <div class="select"><input v-model="countries" type="text" readonly @click="show = true" placeholder="请选择"></div>
+            <van-popup v-model="show" position="bottom">
+              <van-picker show-toolbar title="请选择" :columns="countriesList" @cancel="show = false" @confirm="onCityConfirm" />
+            </van-popup>
+          </div>
+          <div class="form_item" v-if="formData.formType == 1">
+            <label>注册意向</label>
+            <div class="select"><input type="text" v-model="intention" readonly @click="intentionShow = true" placeholder="请选择"></div>
+            <van-popup v-model="intentionShow" position="bottom">
+              <van-picker show-toolbar title="请选择" :columns="intentionList" @cancel="intentionShow = false" @confirm="onIntentionConfirm" />
+            </van-popup>
+          </div>
+          <div class="form_item"  v-if="formData.formType == 2">
+            <label>城市/地区<span>*</span></label>
+            <div class="select"><input v-model="address" type="tel" placeholder="如：杭州-西湖区"></div>
+          </div>
+          <div class="form_item">
+            <label>联系电话<span>*</span></label>
+            <div class="select"><input maxlength="11" v-model="tel" type="tel" placeholder="请输入"></div>
+          </div>
+          <div class="form_item">
+            <label>如何称呼</label>
+            <div class="select"><input v-model="name" type="text" placeholder="请输入"></div>
+          </div>
+          <div id="captcha"></div>
+        </div>
+        <div class="intentionCollect_btn">
+          <button :style="{'background': formData.buttonBgColor}" @click="submitForm">{{formData.buttonRemark}}</button>
+        </div>
+        <div v-if="formData.buttonUnder" :style="{'color': formData.buttonUnderColor}" class="buttonUnder" v-html="handleText(formData.buttonUnder)"></div>
       </div>
       <div class="bottomImg" v-if="formData.tailImg">
         <img :src="formData.tailImg" alt="">
@@ -53,11 +95,12 @@
 <script>
 import Vue from 'vue'
 import sa from 'sa-sdk-javascript'
-import { Field, Button, Toast } from 'vant'
+import { Field, Button, Toast, Checkbox, Picker, Popup } from 'vant'
 import globalApi from '@/api/globalApi'
 import { config, Terminal } from '@/utils/global'
-Vue.use(Field).use(Button).use(Toast)
+Vue.use(Field).use(Button).use(Toast).use(Checkbox).use(Picker).use(Popup)
 export default {
+  name: 'landPage',
   data() {
     return {
       isWechat: false,
@@ -70,7 +113,17 @@ export default {
       captchaIns: '',
       getYZMStatus: true,
       downloadUrl: 'https://res.caishuiyu.com/common/pkg/android/caishuiyu.apk',
-      formData: {}
+      formData: {},
+      checked: false,
+      show: false,
+      countriesList: ['美国', '中国香港', '英国', '德国', '日本', '加拿大', '澳大利亚', '新加坡', '开曼群岛', '塞舌尔', '印度', '英属维尔京群岛', '萨摩亚', '马绍尔', '马耳他', '百慕大', '巴哈马', '其他'],
+      countries: '',
+      intentionShow: false,
+      intentionList: ['注册便宜，不一定会实际运作', '用于开设电商，税费低，免税州', '利于办理签证和移民', '提升公司国际形象及名气', '运作成本低，税费便宜', '暂不清楚，咨询得到结果'],
+      intention: '',
+      address: '',
+      tel: '',
+      name: ''
     }
   },
   created() {
@@ -151,6 +204,11 @@ export default {
       }
       globalApi.channelPageObtainDetail(params).then(res => {
         if(res.code == 0) {
+          if (res.data.formJson) {
+            res.data.formType = JSON.parse(res.data.formJson).formType
+            res.data.formTypeName = JSON.parse(res.data.formJson).formTypeName
+            res.data.formTitle = JSON.parse(res.data.formJson).formTitle
+          }
           this.formData = res.data
           document.title = this.formData.title
           if (this.formData.dowloadUrl && this.formData.dowloadUrl != '') {
@@ -179,6 +237,10 @@ export default {
       }
     },
     register () {
+      // if (!this.checked) {
+      //   Toast('请先勾选平台服务协议！')
+      //   return
+      // }
       if (this.phone.length !== 11) {
         Toast('请输入11位合法手机号！')
         return
@@ -243,9 +305,81 @@ export default {
         } 
       }
     },
+    submitForm() {
+      if (this.formData.formType == 1 && this.countries == '') {
+        Toast('请先选择国家/地区！')
+        return
+      }
+      if (this.formData.formType == 2 && this.address == '') {
+        Toast('请先填写城市/地区！')
+        return
+      }
+      if(this.tel == '') {
+        Toast('请先填写联系方式！')
+        return
+      }
+
+      let reg = new RegExp(/1[0-9]{10}/)
+
+      if(this.tel.length < 11 || !reg.test(this.tel)) {
+        Toast('请输入11位合法手机号!')
+        return
+      }
+
+      let formJson = {
+        country: this.formData.formType == 1 ? this.countries : this.address,
+        phone: this.tel
+      }
+
+      let subject = this.formData.formTypeName + ',' + formJson.country
+
+      if (this.intention && this.intention != '') {
+        formJson.intention = this.intention
+        subject = subject + ',' + this.intention
+      }
+
+      if (this.name && this.name != '') {
+        formJson.name = this.name
+        subject = subject + ',' + this.name
+      }
+
+      subject = subject + ',' + formJson.phone
+
+      let params = {
+        pageId: this.$route.query.id,
+        pageType: this.formData.pageType,
+        formType: this.formData.formType,
+        formJson: JSON.stringify(formJson)
+      }
+
+      globalApi.channelPageObtainFormSave(params).then(res => {
+        if(res.code == 0) {
+          Toast('提交成功!')
+          sa.track('WebIntentionInfoSubmit', {
+            target: this.formData.channelRemark,
+            subject: subject
+          })
+          this.$router.push('/downloadAPP?id=' + this.$route.query.id + '&channelRemark=' + this.$route.query.channelRemark)
+        }
+      })
+
+    },
     handleText(text) {
       let str = text.replace(/\n/g,"<br/>")
       return str
+    },
+    jumpAgreement() {
+      this.$router.push('agreement')
+    },
+    onCityConfirm(val) {
+      console.log(val)
+      this.countries = val
+      this.show = false
+    },
+    onIntentionConfirm(val) {
+      console.log(val)
+      this.intention = val
+      this.intentionShow = false
     }
   }
 }
@@ -326,7 +460,7 @@ export default {
         margin-top: 16px;
       }
       .password {
-        width: 160px;
+        width: 180px;
         float: left;
       }
       .getYZM {
@@ -350,8 +484,23 @@ export default {
           outline: none;
         }
       }
+      .xieyi {
+        margin-top: 0px;
+        margin-bottom: 0px;
+        font-family: PingFangSC-Regular;
+        font-size: 12px;
+        color: rgba(0,0,0,0.60);
+        text-align: left;
+        line-height: 18px;
+        position: relative;
+        height: 20px;
+        span {
+          color: #FF7F4A;
+        }
+      }
       .submitBtn {
         border-radius: 3px;
+        margin-top: 10px;
         button {
           width: 100%;
           height: 100%;
@@ -403,6 +552,71 @@ export default {
         text-align: center;
         font-size: 12px;
         margin-top: 10px;
+        font-family: PingFangSC-Regular;
+        color: rgba(153,153,153,1);
+        line-height: 16px;
+      }
+    }
+    .intentionCollect {
+      width: 100%;
+      padding: 16px 0;
+      background-color: #fbfbfb;
+      .title {
+        margin-bottom: 20px;
+        line-height: 20px;
+      }
+      .intentionCollect_form {
+        width: 300px;
+        margin: 0 auto;
+        .form_item {
+          margin-bottom: 20px;
+          label {
+            font-family: PingFangSC-Regular;
+            font-size: 14px;
+            font-weight: 400;
+            span {
+              color: red;
+            }
+          }
+          .select {
+            height: 40px;
+            border-bottom: 1px solid #ccc;
+            line-height: 40px;
+            font-size: 14px;
+            color: #666666;
+            input {
+              width: 100%;
+              background-color: #fbfbfb;
+              // color: rgba(52,85,239,1);
+            }
+          }
+        }
+      }
+      .intentionCollect_btn {
+        width: 300px;
+        margin: 0 auto;
+        border-radius: 3px;
+        button {
+          width: 100%;
+          height: 100%;
+          box-sizing: border-box;
+          font-family: PingFangSC-Regular;
+          font-size: 16px;
+          font-weight: 600;
+          color: rgba(255,255,255,1);
+          line-height: 40px;
+          background-color: #fff;
+          border-radius: 3px;
+          background: linear-gradient(0deg,rgba(52,85,239,1) 0%,rgba(104,161,245,1) 100%);
+          letter-spacing: 4px;
+          outline: none;
+        }
+      }
+      .buttonUnder {
+        text-align: center;
+        font-size: 12px;
+        margin-top: 10px;
+        margin-bottom: 16px;
         font-family: PingFangSC-Regular;
         color: rgba(153,153,153,1);
         line-height: 16px;
@@ -465,3 +679,39 @@ export default {
   }
 }
 </style>
+<style lang="scss">
+.landPage {
+  .xieyi {
+    .xieyiInner {
+      display: flex;
+      // align-items: center;
+      // justify-content: center;
+      margin-left: auto;
+      margin-right: auto;
+      .agreement{
+        line-height: 18px;
+      }
+    }
+    .van-checkbox {
+      display: inline-flex;
+    }
+    .van-checkbox__label {
+      color: rgba(0,0,0,0.60);
+      width: 90px;
+    }
+    .van-checkbox__icon {
+      height: auto;
+    }
+    .van-checkbox__icon .van-icon {
+      width: 14px;
+      height: 14px;
+    }
+    .van-icon-success:before {
+      position: relative;
+      top: -3px;
+      left: -1px;
+    }
+  }
+}
+</style>
+

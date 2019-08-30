@@ -45,6 +45,14 @@ export default new Router({
       }
     },
     {
+      path: '/agreement',
+      name: 'agreement',
+      component: () => import('../views/downLoadPages/landPage/agreement.vue'),
+      meta: {
+        title: '财税鱼平台服务协议'
+      }
+    },
+    {
       path: '/landPage',
       name: 'landPage',
       component: () => import('../views/downLoadPages/landPage/landPage.vue'),
