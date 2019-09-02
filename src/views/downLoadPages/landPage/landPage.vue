@@ -195,8 +195,6 @@ export default {
                 })
               } else if(that.getYZMType == 'intention') {
                 let params = {
-                  clientType: 'h5',
-                  verifyType: 'sms',
                   captchaId: config.captchaId,
                   captchaValidate: data.validate,
                   phone: that.phone
@@ -400,8 +398,6 @@ export default {
       subject = subject + ',' + formJson.phone
 
       let params = {
-        clientType: 'h5',
-        verifyType: 'sms',
         verifycode: this.password,
         phone: this.phone,
         pageId: this.$route.query.id,
