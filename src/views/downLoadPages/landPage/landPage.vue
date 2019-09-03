@@ -409,6 +409,14 @@ export default {
       globalApi.channelPageObtainFormValidateSave(params).then(res => {
         if(res.code == 0) {
           Toast('提交成功!')
+          if (this.formData.jsReport) {
+            try {
+              eval(this.formData.jsReport)
+            }
+            catch {
+              console.log("jsReport代码 运行时报错")
+            }
+          }
           sa.track('WebIntentionInfoSubmit', {
             target: this.formData.channelRemark,
             subject: subject
