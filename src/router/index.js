@@ -45,6 +45,14 @@ export default new Router({
       }
     },
     {
+      path: '/csy-pc',
+      name: 'csy-pc',
+      component: () => import('../views/downLoadPages/landPage/landPage_pc.vue'),
+      meta: {
+        title: '财税鱼渠道页'
+      }
+    },
+    {
       path: '/agreement',
       name: 'agreement',
       component: () => import('../views/downLoadPages/landPage/agreement.vue'),

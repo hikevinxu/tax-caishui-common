@@ -2,6 +2,7 @@ import axios from 'axios'
 import Vue from 'vue'
 import router from '@/router/index'
 import { Toast } from 'vant'
+import { Message, MessageBox } from 'element-ui'
 import cookie from '@/utils/cookie'
 import { Terminal } from '@/utils/global'
 
@@ -51,20 +52,6 @@ axios.interceptors.response.use((res) => {
   } else if (res.data.code !== 0) {
     let info = '系统异常'
     switch (res.data.code) {
-      case 10000:
-        if (Terminal.deviceInfo().deviceType == 'pc') {
-          router.push('/login')
-        } else {
-          router.push('/in')
-        }
-        break;
-      case 10001:
-        if (Terminal.deviceInfo().deviceType == 'pc') {
-          router.push('/login')
-        } else {
-          router.push('/in')
-        }
-        break;
       case 11000:
         return Promise.resolve(res)
     }
@@ -113,5 +100,13 @@ export function fetchGet (url, param) {
 }
 
 function ToastFailInfo (info) {
-  Toast.fail(info)
+  if (Terminal.deviceInfo().deviceType == 'pc') {
+    Message({
+      message: info,
+      type: 'error',
+      duration: 2 * 1000
+    })
+  } else {
+    Toast.fail(info)
+  }
 }

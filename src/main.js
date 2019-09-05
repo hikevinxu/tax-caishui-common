@@ -8,7 +8,10 @@ import store from './store/store'
 import '@/common/css/reset.css'
 import '@/common/css/animate.css'
 import '@/common/css/h5Header.css'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 // import VConsole from 'vconsole'
+Vue.use(ElementUI)
 
 Vue.config.productionTip = false
 /* eslint-disable no-new */
