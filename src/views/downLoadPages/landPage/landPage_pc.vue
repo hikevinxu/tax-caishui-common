@@ -212,7 +212,7 @@ export default {
             res.data.formTypeName = JSON.parse(res.data.formJson).formTypeName
             res.data.formTitle = JSON.parse(res.data.formJson).formTitle
           }
-          
+
           this.formData = res.data
           document.title = this.formData.title
           if (this.formData.dowloadUrl && this.formData.dowloadUrl != '') {
@@ -402,6 +402,7 @@ export default {
       subject = subject + ',' + formJson.phone
 
       let params = {
+        clientType: 'pc',
         verifycode: this.password,
         phone: this.phone,
         pageId: this.$route.query.id,
@@ -625,7 +626,6 @@ export default {
           width: 66px;
           height: 66px;
           margin: 0 auto;
-          background-image: linear-gradient(135deg, #FFAD71 0%, #FF7F4A 100%);
           #canvas {
             width: 100%!important;
             height: 100%!important;
@@ -857,7 +857,6 @@ export default {
             width: 200Px;
             height: 200Px;
             margin: 0 auto;
-            background-image: linear-gradient(135deg, #FFAD71 0%, #FF7F4A 100%);
             #canvas {
               width: 100%!important;
               height: 100%!important;
