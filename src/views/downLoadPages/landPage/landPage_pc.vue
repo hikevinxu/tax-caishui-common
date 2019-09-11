@@ -123,7 +123,7 @@ export default {
         captchaId: config.captchaId,
         element: '#captcha',
         mode: 'bind',
-        width: '320Px',
+        width: '350px',
         enableClose: true, // 由业务方控制验证码弹框关闭
         onVerify: function(err, data){
           // 用户验证码验证成功后，进行实际的提交行为
