@@ -700,11 +700,11 @@ export default {
           box-sizing: border-box;
           font-family: PingFangSC-Regular;
           font-weight: 400;
-          color: rgba(67,100,237,1);
+          color: #000;
           line-height: 40px;
           background-color: #fff;
           border-radius: 3px;
-          border: 1px solid rgba(67,100,237,1);
+          border: 1px solid #000;
           outline: none;
         }
       }
