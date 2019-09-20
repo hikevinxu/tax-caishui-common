@@ -79,7 +79,7 @@
             <van-field v-model="password" placeholder="输入验证码" />
           </div>
           <div class="getYZM">
-            <button :style="{'border-color': formData.buttonBgColor, 'color': formData.buttonBgColor}" @click="getYZM"><span v-if="!getting">获取验证码</span><span v-else>{{second}}</span></button>
+            <button @click="getYZM"><span v-if="!getting">获取验证码</span><span v-else>{{second}}</span></button>
           </div>
         </div>
         <div id="captcha"></div>
@@ -133,7 +133,7 @@
           <div class="form_item" v-if="phone.length == 11">
             <label>短信验证码<span>*</span></label>
             <div class="select"><input maxlength="11" v-model="password" type="tel" placeholder="请输入"></div>
-            <div class="intentionCollect_getYZM" @click="intentionGetYZM" :style="{'color': formData.buttonBgColor}"><span v-if="!getting">获取验证码</span><span v-else>{{second}}s后重新获取</span></div>
+            <div class="intentionCollect_getYZM" @click="intentionGetYZM"><span v-if="!getting">获取验证码</span><span v-else>{{second}}s后重新获取</span></div>
           </div>
           <div id="captcha"></div>
         </div>
