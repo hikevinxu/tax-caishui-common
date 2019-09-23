@@ -563,6 +563,8 @@ export default {
       subject = subject + ',' + formJson.phone
 
       let params = {
+        clientType: 'h5',
+        verifyType: 'sms',
         verifycode: this.password,
         phone: this.phone,
         pageId: this.$route.query.id,

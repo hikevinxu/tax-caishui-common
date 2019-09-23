@@ -411,6 +411,7 @@ export default {
 
       let params = {
         clientType: 'pc',
+        verifyType: 'sms',
         verifycode: this.password,
         phone: this.phone,
         pageId: this.$route.query.id,
