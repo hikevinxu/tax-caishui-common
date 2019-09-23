@@ -453,13 +453,21 @@ export default {
         Toast('请输入短信验证码！')
         return
       }
+
+      let formJson = {
+        phone: this.phone
+      }
+
       let params = {
         clientType: 'h5',
         phone: this.phone,
         verifyType: 'sms',
-        verifycode: this.password
+        verifycode: this.password,
+        pageType: this.formData.pageType,
+        pageId: this.$route.query.id,
+        formJson: JSON.stringify(formJson)
       }
-      globalApi.authVerifycodeLogin(params).then(res => {
+      globalApi.channelPageObtainFormValidateSave(params).then(res => {
         if(res.code == 0){
           if(res.data.authInfo.newRegistration && res.data.authInfo.newRegistration == true){
             sa.track('WebSignUp', {
