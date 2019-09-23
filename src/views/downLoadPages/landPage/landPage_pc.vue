@@ -279,20 +279,28 @@ export default {
         })
         return
       }
+
+      let formJson = {
+        phone: this.phone
+      }
+
       let params = {
         clientType: 'h5',
         phone: this.phone,
         verifyType: 'sms',
-        verifycode: this.password
+        verifycode: this.password,
+        pageType: this.formData.pageType,
+        pageId: this.$route.query.id,
+        formJson: JSON.stringify(formJson)
       }
-      globalApi.authVerifycodeLogin(params).then(res => {
+      globalApi.channelPageObtainFormValidateSave(params).then(res => {
         if(res.code == 0){
-          if(res.data.authInfo.newRegistration == true){
+          if(res.data.newRegistration == true){
             sa.track('WebSignUp', {
                 target: this.formData.channelRemark,
                 phone: this.phone
             })
-            sa.login(res.data.authInfo.uid)
+            sa.login(res.data.uid)
           }
           if (this.formData.jsReport) {
             try {
@@ -419,6 +427,13 @@ export default {
             showClose: true,
             duration: 1000
           })
+          if(res.data.newRegistration == true){
+            sa.track('WebSignUp', {
+                target: this.formData.channelRemark,
+                phone: this.phone
+            })
+            sa.login(res.data.uid)
+          }
           if (this.formData.jsReport) {
             try {
               eval(this.formData.jsReport)

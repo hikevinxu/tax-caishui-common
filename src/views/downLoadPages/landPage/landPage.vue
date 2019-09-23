@@ -28,12 +28,12 @@
                 </div>
                 <div class="tax_form_item">
                   <label>企业开票金额</label>
-                  <input style="text-align: right;" type="tel" v-model="companyTaxData.money" @click="intentionShow = true" placeholder="请输入整数">
+                  <input style="text-align: right;" type="tel" v-model="companyTaxData.money" placeholder="请输入整数">
                   <span>万元</span>
                 </div>
                 <div class="tax_form_item">
                   <label>企业年利润</label>
-                  <input style="text-align: right;" type="tel" v-model="companyTaxData.profits" @click="intentionShow = true" placeholder="请输入整数">
+                  <input style="text-align: right;" type="tel" v-model="companyTaxData.profits" placeholder="请输入整数">
                   <span>万元</span>
                 </div>
               </div>
@@ -469,12 +469,12 @@ export default {
       }
       globalApi.channelPageObtainFormValidateSave(params).then(res => {
         if(res.code == 0){
-          if(res.data.authInfo.newRegistration && res.data.authInfo.newRegistration == true){
+          if(res.data.newRegistration && res.data.newRegistration == true){
             sa.track('WebSignUp', {
                 target: this.formData.channelRemark,
                 phone: this.phone
             })
-            sa.login(res.data.authInfo.uid)
+            sa.login(res.data.uid)
           }
           if (this.formData.jsReport) {
             try {
