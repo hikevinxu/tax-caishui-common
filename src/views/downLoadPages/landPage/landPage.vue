@@ -461,7 +461,7 @@ export default {
       }
       globalApi.authVerifycodeLogin(params).then(res => {
         if(res.code == 0){
-          if(res.data.authInfo.newRegistration == true){
+          if(res.data.authInfo.newRegistration && res.data.authInfo.newRegistration == true){
             sa.track('WebSignUp', {
                 target: this.formData.channelRemark,
                 phone: this.phone
@@ -566,6 +566,13 @@ export default {
       globalApi.channelPageObtainFormValidateSave(params).then(res => {
         if(res.code == 0) {
           Toast('提交成功!')
+          if(res.data.newRegistration == true){
+            sa.track('WebSignUp', {
+                target: this.formData.channelRemark,
+                phone: this.phone
+            })
+            sa.login(res.data.uid)
+          }
           if (this.formData.jsReport) {
             try {
               eval(this.formData.jsReport)
