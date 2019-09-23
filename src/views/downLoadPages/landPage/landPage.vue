@@ -767,9 +767,11 @@ export default {
       }
     }
     .download {
-      width: 300px;
-      margin: 16px auto;
+      width: 100%;
+      overflow: hidden;
       .downloadBtn {
+        width: 300px;
+        margin: 16px auto 10px;
         border-radius: 3px;
         button {
           width: 100%;
@@ -788,9 +790,12 @@ export default {
         }
       }
       .buttonUnder {
+        width: 300px;
+        margin: 0 auto;
         text-align: center;
         font-size: 12px;
         margin-top: 10px;
+        margin-bottom: 10px;
         font-family: PingFangSC-Regular;
         color: rgba(153,153,153,1);
         line-height: 16px;
