@@ -425,7 +425,8 @@ export default {
           Toast('请输入11位合法手机号！')
           return
         }
-        this.getYZMType = 'register'
+        // this.getYZMType = 'register'
+        this.getYZMType = 'intention'
         this.captchaIns && this.captchaIns.verify()
       }
     },

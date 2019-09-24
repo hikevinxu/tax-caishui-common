@@ -247,7 +247,8 @@ export default {
           })
           return
         }
-        this.getYZMType = 'register'
+        // this.getYZMType = 'register'
+        this.getYZMType = 'intention'
         this.captchaIns && this.captchaIns.verify()
       }
     },
