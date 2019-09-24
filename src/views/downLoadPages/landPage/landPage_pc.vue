@@ -853,6 +853,7 @@ export default {
           }
           .getYzm {
             display: flex;
+            background-color: transparent;
             input {
               flex: 1
             }
