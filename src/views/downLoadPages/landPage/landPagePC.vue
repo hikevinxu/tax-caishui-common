@@ -681,7 +681,7 @@ export default {
   position: relative;
   .landPagePC-center {
     width: 1440Px;
-    position: absolute;
+    position: relative;
     top: 0;
     left: 50%;
     transform: translate(-50%, 0);
