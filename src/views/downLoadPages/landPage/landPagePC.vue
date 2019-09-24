@@ -1,5 +1,5 @@
 <template>
-  <div class="landPagePC">
+  <div class="landPagePC" :style="'background: ' + formData.pageBgColor">
     <div class="landPagePC-center">
       <div class="headImgContent">
         <img class="headImg" v-if="formData.headImg" :src="formData.headImg" alt="">
