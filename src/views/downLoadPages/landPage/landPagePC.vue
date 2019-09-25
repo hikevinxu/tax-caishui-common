@@ -1050,4 +1050,24 @@ export default {
 body,html {
   overflow-x: hidden!important;
 }
+::-webkit-input-placeholder { /* WebKit browsers */
+  font-size: 14Px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: rgba(0,0,0,0.60);
+}
+
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+  font-size: 14Px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: rgba(0,0,0,0.60);
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+  font-size: 14Px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: rgba(0,0,0,0.60);
+}
 </style>
