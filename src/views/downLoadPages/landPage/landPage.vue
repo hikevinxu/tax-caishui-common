@@ -13,7 +13,64 @@
           <img :src="formData.topImg" alt="">
         </div>
       </div>
-      <div class="register" v-if="formData.pageType == 1">
+      <div class="taxCalculator"  v-if="formData.showCounter" :style="{'background': formData.preRegisterBgColor}">
+        <div class="tax-top">
+          <van-tabs v-model="active">
+            <van-tab title="企业节税计算器">
+              <div class="tax-Content">
+                <div class="tax_form_item">
+                  <label>企业增值税率</label>
+                  <input style="text-align: right;" type="text" v-model="companyTaxData.rate" readonly @click="rateShow = true" placeholder="请选择">
+                  <span style="margin-top: 2px;"><van-icon name="arrow" /></span>
+                  <van-popup v-model="rateShow" position="bottom">
+                    <van-picker show-toolbar title="请选择" :columns="rateList" @cancel="rateShow = false" @confirm="onRateConfirm" />
+                  </van-popup>
+                </div>
+                <div class="tax_form_item">
+                  <label>企业开票金额</label>
+                  <input style="text-align: right;" type="tel" v-model="companyTaxData.money" @click="intentionShow = true" placeholder="请输入整数">
+                  <span>万元</span>
+                </div>
+                <div class="tax_form_item">
+                  <label>企业年利润</label>
+                  <input style="text-align: right;" type="tel" v-model="companyTaxData.profits" @click="intentionShow = true" placeholder="请输入整数">
+                  <span>万元</span>
+                </div>
+              </div>
+              <div class="tax-Content_bottom">
+                <p><span>应缴纳税</span><span>{{ companyTaxDataShouldPayTax }}万元</span></p>
+                <p><span>预计节税</span><span>{{ companyTaxDataSaveTax }}万元</span></p>
+              </div>
+            </van-tab>
+            <van-tab title="个人节税计算器">
+              <div class="tax-Content">
+                <div class="tax_form_item">
+                  <label>工资薪金（月）</label>
+                  <input style="text-align: right;" type="tel" v-model="personTaxData.salary" placeholder="如：8000">
+                  <span>元</span>
+                </div>
+                <div class="tax_form_item">
+                  <label>劳务报酬（月）</label>
+                  <input style="text-align: right;" type="tel" v-model="personTaxData.remuneration" placeholder="如：8000">
+                  <span>元</span>
+                </div>
+                <div class="tax_form_item">
+                  <label>年终奖（年）</label>
+                  <input style="text-align: right;" type="tel" v-model="personTaxData.bonus" placeholder="如：8000">
+                  <span>元</span>
+                </div>
+              </div>
+              <div class="tax-Content_bottom">
+                <p><span>应缴纳税</span><span>{{ personTaxDataShouldPayTax }}元</span></p>
+                <p><span>预计节税</span><span>{{ personTaxDataSaveTax }}元</span></p>
+              </div>
+            </van-tab>
+          </van-tabs>
+        </div>
+        <span :style="{'background': formData.preRegisterBgColor}" class="yuan"></span>
+        <span :style="{'background': formData.preRegisterBgColor}" class="yuan"></span>
+      </div>
+      <div class="register" v-if="formData.pageType == 1" :style="{'background': formData.preRegisterBgColor}">
         <div class="inputItem">
           <van-field v-model="phone" maxlength="11" type="number" placeholder="请输入手机号" />
         </div>
@@ -22,7 +79,7 @@
             <van-field v-model="password" placeholder="输入验证码" />
           </div>
           <div class="getYZM">
-            <button :style="{'border-color': formData.buttonBgColor, 'color': formData.buttonBgColor}" @click="getYZM"><span v-if="!getting">获取验证码</span><span v-else>{{second}}</span></button>
+            <button @click="getYZM"><span v-if="!getting">获取验证码</span><span v-else>{{second}}</span></button>
           </div>
         </div>
         <div id="captcha"></div>
@@ -33,18 +90,18 @@
           </div>
         </div> -->
         <div class="inputItem submitBtn">
-          <button :style="{'background': formData.buttonBgColor}" @click="register">{{formData.buttonRemark}}</button>
+          <button :style="{'background': formData.buttonBgColor, 'color': formData.buttonRemarkColor}" @click="register">{{formData.buttonRemark}}</button>
         </div>
         <div v-if="formData.buttonUnder" :style="{'color': formData.buttonUnderColor}" class="buttonUnder" v-html="handleText(formData.buttonUnder)"></div>
       </div>
-      <div class="download" v-if="formData.pageType == 2">
+      <div class="download" v-if="formData.pageType == 2" :style="{'background': formData.preRegisterBgColor}">
         <div class="inputItem downloadBtn">
-          <button :style="{'background': formData.buttonBgColor}" @click="download">{{formData.buttonRemark}}</button>
+          <button :style="{'background': formData.buttonBgColor, 'color': formData.buttonRemarkColor}" @click="download">{{formData.buttonRemark}}</button>
         </div>
         <div v-if="formData.buttonUnder" :style="{'color': formData.buttonUnderColor}" class="buttonUnder" v-html="handleText(formData.buttonUnder)"></div>
         <div id="captcha"></div>
       </div>
-      <div class="intentionCollect" v-if="formData.pageType == 3">
+      <div class="intentionCollect" v-if="formData.pageType == 3" :style="{'background': formData.preRegisterBgColor}">
         <div class="intentionCollect_form">
           <div class="title" v-if="formData.formTitle">{{formData.formTitle}}</div>
           <div class="form_item" v-if="formData.formType == 1">
@@ -76,12 +133,12 @@
           <div class="form_item" v-if="phone.length == 11">
             <label>短信验证码<span>*</span></label>
             <div class="select"><input maxlength="11" v-model="password" type="tel" placeholder="请输入"></div>
-            <div class="intentionCollect_getYZM" @click="intentionGetYZM" :style="{'color': formData.buttonBgColor}"><span v-if="!getting">获取验证码</span><span v-else>{{second}}s后重新获取</span></div>
+            <div class="intentionCollect_getYZM" @click="intentionGetYZM"><span v-if="!getting">获取验证码</span><span v-else>{{second}}s后重新获取</span></div>
           </div>
           <div id="captcha"></div>
         </div>
         <div class="intentionCollect_btn">
-          <button :style="{'background': formData.buttonBgColor}" @click="submitForm">{{formData.buttonRemark}}</button>
+          <button :style="{'background': formData.buttonBgColor, 'color': formData.buttonRemarkColor}" @click="submitForm">{{formData.buttonRemark}}</button>
         </div>
         <div v-if="formData.buttonUnder" :style="{'color': formData.buttonUnderColor}" class="buttonUnder" v-html="handleText(formData.buttonUnder)"></div>
       </div>
@@ -100,10 +157,10 @@
 <script>
 import Vue from 'vue'
 import sa from 'sa-sdk-javascript'
-import { Field, Button, Toast, Checkbox, Picker, Popup } from 'vant'
+import { Field, Button, Toast, Checkbox, Picker, Popup, Tab, Tabs, Icon } from 'vant'
 import globalApi from '@/api/globalApi'
 import { config, Terminal } from '@/utils/global'
-Vue.use(Field).use(Button).use(Toast).use(Checkbox).use(Picker).use(Popup)
+Vue.use(Field).use(Button).use(Toast).use(Checkbox).use(Picker).use(Popup).use(Tab).use(Tabs).use(Icon)
 export default {
   name: 'landPage',
   data() {
@@ -129,7 +186,107 @@ export default {
       address: '',
       tel: '',
       name: '',
-      getYZMType: ''
+      getYZMType: '',
+      companyTaxData: {
+        rate: '',
+        money: '',
+        profits: ''
+      },
+      personTaxData: {
+        salary: '',
+        remuneration: '',
+        bonus: ''
+      },
+      rateShow: false,
+      rateList: ['6%','9%','13%'],
+      active: 0
+    }
+  },
+  computed: {
+    companyTaxDataShouldPayTax: function(){
+      var rateNum = (this.companyTaxData.rate.replace("%",""))/100
+      var zengzhi = Number(this.companyTaxData.money)/(1+rateNum)*rateNum
+      var fujia = zengzhi*0.12
+      var qysds = Number(this.companyTaxData.profits)*0.25
+      var gdfhgs = (Number(this.companyTaxData.profits) - qysds)*0.2
+      return (zengzhi + fujia + qysds + gdfhgs).toFixed(2)
+    },
+    companyTaxDataSaveTax: function() {
+      var zengzhi = Number(this.companyTaxData.money)/(1+0.03)*0.03
+      var fujia = zengzhi*0.12
+      var qysds = Number(this.companyTaxData.profits)*0
+      var gesds = Number(this.companyTaxData.money)/(1+0.03)*0.015
+      var yjjs = this.companyTaxDataShouldPayTax - (zengzhi + fujia + qysds + gesds)
+      if (yjjs < 0) {
+        yjjs = 0
+      }
+      return yjjs.toFixed(2)
+    },
+    personTaxDataShouldPayTax: function(){
+      var rate,sskcs
+      if (Number(this.personTaxData.salary) <= 3000) {
+        rate = 0.03
+        sskcs = 0
+      }else if(Number(this.personTaxData.salary) > 3000 && Number(this.personTaxData.salary) <= 12000){
+        rate = 0.1
+        sskcs = 210
+      }else if(Number(this.personTaxData.salary) > 12000 && Number(this.personTaxData.salary) <= 25000){
+        rate = 0.2
+        sskcs = 1410
+      }else if(Number(this.personTaxData.salary) > 25000 && Number(this.personTaxData.salary) <= 35000){
+        rate = 0.25
+        sskcs = 2660
+      }else if(Number(this.personTaxData.salary) > 35000 && Number(this.personTaxData.salary) <= 55000){
+        rate = 0.3
+        sskcs = 4410
+      }else if(Number(this.personTaxData.salary) > 55000 && Number(this.personTaxData.salary) <= 80000){
+        rate = 0.35
+        sskcs = 7160
+      }else if(Number(this.personTaxData.salary) > 80000){
+        rate = 0.45
+        sskcs = 15160
+      }
+
+      var rateYear,sskcsYear
+      if (Number(this.personTaxData.bonus)/12 <= 3000) {
+        rateYear = 0.03
+        sskcsYear = 0
+      }else if(Number(this.personTaxData.bonus)/12 > 3000 && Number(this.personTaxData.bonus)/12 <= 12000){
+        rateYear = 0.1
+        sskcsYear = 210
+      }else if(Number(this.personTaxData.bonus)/12 > 12000 && Number(this.personTaxData.bonus)/12 <= 25000){
+        rateYear = 0.2
+        sskcsYear = 1410
+      }else if(Number(this.personTaxData.bonus)/12 > 25000 && Number(this.personTaxData.bonus)/12 <= 35000){
+        rateYear = 0.25
+        sskcsYear = 2660
+      }else if(Number(this.personTaxData.bonus)/12 > 35000 && Number(this.personTaxData.bonus)/12 <= 55000){
+        rateYear = 0.3
+        sskcsYear = 4410
+      }else if(Number(this.personTaxData.bonus)/12 > 55000 && Number(this.personTaxData.bonus)/12 <= 80000){
+        rateYear = 0.35
+        sskcsYear = 7160
+      }else if(Number(this.personTaxData.bonus)/12 > 80000){
+        rateYear = 0.45
+        sskcsYear = 15160
+      }
+      var grsds = Number(this.personTaxData.salary) * rate - sskcs
+      var nzj = Number(this.personTaxData.bonus) * rateYear - sskcsYear
+      var lwbc = 0
+      if (Number(this.personTaxData.remuneration) > 800){
+        lwbc = (Number(this.personTaxData.remuneration) - 800) * 0.2
+      }
+      return (grsds + nzj + lwbc).toFixed(2)
+    },
+    personTaxDataSaveTax: function(){
+      var zzs = Number(this.personTaxData.salary)/(1+0.03)*0.03
+      var fjs = zzs * 0.12
+      var grsds = Number(this.personTaxData.salary)/(1+0.03)*0.015
+      var yjjs = this.personTaxDataShouldPayTax - (zzs + fjs + grsds)
+      if(yjjs < 0) {
+        yjjs = 0
+      }
+      return yjjs.toFixed(2)
     }
   },
   created() {
@@ -442,6 +599,11 @@ export default {
       console.log(val)
       this.intention = val
       this.intentionShow = false
+    },
+    onRateConfirm(val) {
+      this.companyTaxData.rate = val
+      this.rateShow = false
+      console.log(this.companyTaxData.rate)
     }
   }
 }
@@ -538,11 +700,11 @@ export default {
           box-sizing: border-box;
           font-family: PingFangSC-Regular;
           font-weight: 400;
-          color: rgba(67,100,237,1);
+          color: #000;
           line-height: 40px;
           background-color: #fff;
           border-radius: 3px;
-          border: 1px solid rgba(67,100,237,1);
+          border: 1px solid #000;
           outline: none;
         }
       }
@@ -786,6 +948,150 @@ export default {
       position: relative;
       top: -3px;
       left: -1px;
+    }
+  }
+  .taxCalculator {
+    width: 100%;
+    position: relative;
+    .yuan {
+      width: 10px;
+      height: 10px;
+      border-radius: 5px;
+      position: absolute;
+      bottom: 62px;
+      right: 25px;
+      &:last-child{
+        left: 25px;
+      }
+    }
+    .tax-top {
+      width: 300px;
+      margin: 0 auto;
+      background: transparent;
+      .van-tabs--line .van-tabs__wrap{
+        height: 40px;
+      }
+      .van-tabs__nav--line {
+        padding-bottom: 0;
+      }
+      .van-tabs__nav {
+        background-color: transparent;
+      }
+      .van-tab {
+        background-color: #fff;
+        border-radius: 8px 8px 0 0;
+        background-image: linear-gradient(180deg, #F5F5F5 0%, #FAFAFA 100%);
+        color: rgba(0,0,0,0.60);
+        font-family: PingFangSC-Medium;
+        font-size: 14px;
+        line-height: 40px;
+      }
+      .van-tabs--line {
+        padding-top: 40px;
+      }
+      .van-tabs__line{
+        bottom: 0;
+        background-color: #FF7F4A;
+      }
+      .van-tab--active {
+        color: #FF7F4A;
+        background-image: linear-gradient(180deg, #FFF 0%, #FFF 100%);
+      }
+      .van-hairline--top-bottom::after{
+        border-width: 0;
+      }
+      .tax-Content {
+        background-color: #fff;
+        padding: 16px;
+        .tax_form_item {
+          height: 36px;
+          background: #FAFAFA;
+          box-sizing: border-box;
+          border: 1px solid rgba(0,0,0,0.04);
+          border-radius: 2px;
+          padding: 8px;
+          overflow: hidden;
+          margin-bottom: 8px;
+          position: relative;
+          label {
+            float: left;
+            width: 100px;
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: rgba(0,0,0,0.60);
+            text-align: left;
+            line-height: 20px;
+          }
+          input {
+            float: right;
+            width: 100px;
+            height: 20px;
+            background-color: #FAFAFA;
+            font-family: PingFangSC-Regular;
+            text-align: right;
+            line-height: 20px;
+            padding-right: 38px;
+            font-size: 13px;
+            color: rgba(0,0,0,0.60);
+          }
+          span {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            font-family: PingFangSC-Regular;
+            font-size: 13px;
+            color: rgba(0,0,0,0.60);
+            text-align: right;
+            line-height: 20px;
+          }
+          &:last-child {
+            margin-bottom: 0px;
+          }
+          ::-webkit-input-placeholder { /* WebKit browsers */
+            font-family: PingFangSC-Light, sans-serif;
+            color: rgba(0,0,0,0.26);
+            font-size: 13px;
+          }
+
+          ::-moz-placeholder { /* Mozilla Firefox 19+ */
+            font-family: PingFangSC-Light, sans-serif;
+            color: rgba(0,0,0,0.26);
+            font-size: 13px;
+          }
+
+          :-ms-input-placeholder { /* Internet Explorer 10+ */
+            font-family: PingFangSC-Light, sans-serif;
+            color: rgba(0,0,0,0.26);
+            font-size: 13px;
+          }
+        }
+      }
+      .tax-Content_bottom {
+        margin-top: 2px;
+        background: #FFEADA;
+        padding: 4px 0;
+        border-radius: 2px;
+        p {
+          line-height: 30px;
+          font-family: PingFangSC-Medium;
+          font-size: 14px;
+          color: rgba(0,0,0,0.38);
+          text-align: left;
+          padding: 0 28px 0 24px;
+          overflow: hidden;
+          span {
+            display: block;
+            width: 50%;
+            float: left;
+            &:nth-last-child(1) {
+              text-align: right;
+            }
+          }
+          &:nth-last-child(1) {
+            color: #FF7F4A;
+          }
+        }
+      }
     }
   }
 }
