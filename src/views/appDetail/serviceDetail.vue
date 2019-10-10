@@ -661,7 +661,7 @@ export default {
           font-size: 14px;
           color: rgba(0,0,0,0.60);
           margin-bottom: 8px;
-          line-height: 22px;
+          line-height: 18px;
           img{
             display: block;
             width: 16px;
