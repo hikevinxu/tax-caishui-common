@@ -1,7 +1,7 @@
 <template>
   <div class="serviceDetail" >
     <div class="companyInfo">
-      <h4 class="title">{{data.title}}</h4>
+      <h4 class="title">撒了看到没卅打卡式啪啪卡萨潘多拉spa的脸庞撒了达萨罗</h4>
       <div class="imgList">
         <div class="img" v-for="(item,index) in data.imgs" :key="index" @click="preview(index)">
           <img :src="item.img" alt="">
@@ -26,9 +26,9 @@
             </div>
           </div>
         </div>
-        <div class="phone" @click="call">
+        <!-- <div class="phone" @click="call">
           <img style="display:block;width: 24px; height: 24px;" src="@/assets/appDetail/ic_firm_call@3x.png" alt="">
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="service_security">
@@ -38,7 +38,7 @@
        </div>
        <div class="security_content" v-show="data.company.bindMerchant">
          <div class="securityList" v-for="(item,index) in data.serviceAssuranceVoList" :key="index">
-           <div class="security">
+           <div class="security" style="background: rgba(255,173,113,0.06)">
              <img :src="item.icon" alt="">
              <span class="security_txt">{{item.title}}</span>
            </div>
@@ -350,7 +350,7 @@ export default {
       font-size: 20px;
       color: rgba(0,0,0,0.87);
       margin-left: 24px;
-      line-height: 26px;
+      line-height: 30px;
       // margin-right: auto;
     }
     .imgList{
@@ -383,7 +383,7 @@ export default {
       margin-left: 24px;
       margin-top: 16px;
       .areaContent{
-        border-right: 1px solid rgba(0,0,0,0.04);
+        // border-right: 1px solid rgba(0,0,0,0.04);
         padding-right: 10px;
         .adress{
           display: flex;
@@ -444,7 +444,6 @@ export default {
         justify-content: center;
         flex-flow: column;
         background: rgba(0,0,0,0.02);
-        border-radius: 8px;
         img{
           margin-bottom: 8px;
           display: block;
@@ -452,10 +451,11 @@ export default {
           height: 24px;
         }
         span{
-          font-family: PingFangSC-Medium;
-          font-size: 13px;
-          color: rgba(0,0,0,0.38);
+          font-family: PingFangSC-Regular;
+          font-size: 12px;
+          color: rgba(0,0,0,0.60);
           text-align: left;
+          font-weight: 100;
           line-height: 20px;
         }
       }
@@ -634,7 +634,7 @@ export default {
     justify-content: space-between;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 32px;
+    margin-top: 24px;
     .companyInfo_footer{
       display: flex;
       margin-left: 16px;
@@ -642,7 +642,7 @@ export default {
       width: 100%;
       .logo{
         display: block;
-        border: 1px solid rgba(0,0,0,0.04);
+        // border: 1px solid rgba(0,0,0,0.04);
         border-radius: 4px;
         width: 48px;
         height: 48px;
@@ -652,21 +652,21 @@ export default {
         display: flex;
         flex-flow: column;
         align-items: flex-start;
-        width: 65%;
+        width: 80%;
         margin-left: 0;
         .name{
           display: flex;
-          align-items: center;
+          align-items: flex-start;
           font-family: PingFangSC-Regular;
           font-size: 14px;
           color: rgba(0,0,0,0.60);
           margin-bottom: 8px;
-          line-height: 18px;
+          line-height: 22px;
           img{
             display: block;
             width: 16px;
             height: 16px;
-            margin-left: 6px;
+            margin-left: 1px;
           }
         }
         .businessList{
