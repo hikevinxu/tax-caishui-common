@@ -1,7 +1,7 @@
 <template>
   <div class="serviceDetail" >
     <div class="companyInfo">
-      <h4 class="title">撒了看到没卅打卡式啪啪卡萨潘多拉spa的脸庞撒了达萨罗</h4>
+      <h4 class="title">{{data.title}}</h4>
       <div class="imgList">
         <div class="img" v-for="(item,index) in data.imgs" :key="index" @click="preview(index)">
           <img :src="item.img" alt="">
