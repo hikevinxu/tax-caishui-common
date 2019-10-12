@@ -77,8 +77,7 @@
             <span style="font-family: PingFangSC-Medium;font-size: 14px;color: rgba(0,0,0,0.87);" class="label">
               办理步骤及所需时间
             </span>
-            <div class="txt" v-show='data.handleProcessDuration'>
-              {{data.handleProcessDuration}}
+            <div class="txt" v-show='data.handleProcessDuration' v-html="data.handleProcessDuration">
             </div>
             <div class="txt" v-show='!data.handleProcessDuration'>
               暂无
@@ -88,8 +87,7 @@
             <span style="font-family: PingFangSC-Medium;font-size: 14px;color: rgba(0,0,0,0.87);" class="label">
               办理所需材料
             </span>
-            <div class="txt" v-show='data.handleProcessDuration'>
-              {{data.handleMaterial}}
+            <div class="txt" v-show='data.handleProcessDuration' v-html="data.handleMaterial">
             </div>
             <div class="txt" v-show='!data.handleProcessDuration'>
               暂无
@@ -99,8 +97,7 @@
             <span style="font-family: PingFangSC-Medium;font-size: 14px;color: rgba(0,0,0,0.87);" class="label">
               交付材料
             </span>
-            <div class="txt" v-show='data.handleProcessDuration'>
-              {{data.deliveryMaterial}}
+            <div class="txt" v-show='data.handleProcessDuration' v-html="data.deliveryMaterial">
             </div>
             <div class="txt" v-show='!data.handleProcessDuration'>
               暂无
@@ -110,8 +107,7 @@
             <span style="font-family: PingFangSC-Medium;font-size: 14px;color: rgba(0,0,0,0.87);" class="label">
               交付时长
             </span>
-            <div class="txt" v-show='data.handleProcessDuration'>
-              {{data.deliveryDuration}}
+            <div class="txt" v-show='data.handleProcessDuration' v-html="data.deliveryDuration">
             </div>
             <div class="txt" v-show='!data.handleProcessDuration'>
               暂无
@@ -231,6 +227,13 @@ export default {
             return
           }else{
             this.data = res.data
+            if(this.data.handleProcessDuration){
+              this.data.handleProcessDuration = this.data.handleProcessDuration.replace(/\n/g,'<br/>')
+              console.log(this.data.handleProcessDuration)
+              this.data.handleMaterial =  this.data.handleMaterial.replace(/\n/g,'<br/>')
+              this.data.deliveryMaterial = this.data.deliveryMaterial.replace(/\n/g,'<br/>')
+              this.data.deliveryDuration = this.data.deliveryDuration.replace(/\n/g,'<br/>')
+            }
             let imgList = []
             for (let i = 0; i < res.data.imgs.length; i++) {
               imgList.push(res.data.imgs[i].img)
