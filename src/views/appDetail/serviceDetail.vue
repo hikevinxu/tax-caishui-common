@@ -445,10 +445,10 @@ export default {
         flex-flow: column;
         background: rgba(0,0,0,0.02);
         img{
-          margin-bottom: 8px;
+          margin-bottom: 4px;
           display: block;
-          width: 24px;
-          height: 24px;
+          width: 28px;
+          height: 28px;
         }
         span{
           font-family: PingFangSC-Regular;
