@@ -26,15 +26,94 @@
             </div>
           </div>
         </div>
-        <div class="phone" @click="call">
+        <!-- <div class="phone" @click="call">
           <img style="display:block;width: 24px; height: 24px;" src="@/assets/appDetail/ic_firm_call@3x.png" alt="">
+        </div> -->
+      </div>
+    </div>
+    <div class="service_security">
+       <div class="security_title">
+         <img style="display:block;width:16px;height:16px;margin-right: 10px;" src="@/assets/appDetail/ic_service_guarantee@3x.png" alt="">
+         <h4>服务保障</h4>
+       </div>
+       <div class="security_content" v-show="data.company.bindMerchant">
+         <div class="securityList" v-for="(item,index) in data.serviceAssuranceVoList" :key="index">
+           <div class="security" style="background: rgba(255,173,113,0.06)">
+             <img :src="item.icon" alt="">
+             <span class="security_txt">{{item.title}}</span>
+           </div>
+         </div>
+       </div>
+       <div class="security_content" v-show="!data.company.bindMerchant">
+         <div class="securityList" v-for="(item,index) in data.serviceAssuranceVoList" :key="index">
+           <div class="security">
+             <img :src="item.iconGrey" alt="">
+             <span class="security_txt">{{item.title}}</span>
+           </div>
+         </div>
+       </div>
+    </div>
+    <div class="company" @click="goCompany">
+      <div class="companyInfo_footer">
+        <img class="logo" :src="data.company.logo" alt="">
+        <div class="info">
+          <span class="name">{{data.company.name}}<img :src="levelSrc" alt="" srcset=""></span>
+          <div class="businessList">
+            <span class="business" >{{data.company.levelLabel}}</span>
+          </div>
         </div>
       </div>
+      <img style="display: block;width:16px;height: 16px;margin-right: 10px;" src="@/assets/appDetail/ic_chevron_right_small@3x.png" alt="">
     </div>
     <div class="hidden" id="detail" ref="detailMore">
       <div class="serviceIntroduction">
-        <h4 class="title">服务介绍</h4>
-        <div class="content" v-html="data.introduce"></div>
+        <div class="Introduction_title">
+          <img style="display:block;width:16px;height:16px;margin-right: 10px;" src="@/assets/appDetail/ic_service_information @3x.png" alt="">
+          <h4>服务介绍</h4>
+        </div>
+        <!-- <div class="content" v-html="data.introduce"></div> -->
+        <div class="content">
+          <div class="Introduction">
+            <span style="font-family: PingFangSC-Medium;font-size: 14px;color: rgba(0,0,0,0.87);" class="label">
+              办理步骤及所需时间
+            </span>
+            <div class="txt" v-show='data.handleProcessDuration' v-html="data.handleProcessDuration">
+            </div>
+            <div class="txt" v-show='!data.handleProcessDuration'>
+              暂无
+            </div>
+          </div>
+          <div class="Introduction">
+            <span style="font-family: PingFangSC-Medium;font-size: 14px;color: rgba(0,0,0,0.87);" class="label">
+              办理所需材料
+            </span>
+            <div class="txt" v-show='data.handleProcessDuration' v-html="data.handleMaterial">
+            </div>
+            <div class="txt" v-show='!data.handleProcessDuration'>
+              暂无
+            </div>
+          </div>
+          <div class="Introduction">
+            <span style="font-family: PingFangSC-Medium;font-size: 14px;color: rgba(0,0,0,0.87);" class="label">
+              交付材料
+            </span>
+            <div class="txt" v-show='data.handleProcessDuration' v-html="data.deliveryMaterial">
+            </div>
+            <div class="txt" v-show='!data.handleProcessDuration'>
+              暂无
+            </div>
+          </div>
+          <div class="Introduction">
+            <span style="font-family: PingFangSC-Medium;font-size: 14px;color: rgba(0,0,0,0.87);" class="label">
+              交付时长
+            </span>
+            <div class="txt" v-show='data.handleProcessDuration' v-html="data.deliveryDuration">
+            </div>
+            <div class="txt" v-show='!data.handleProcessDuration'>
+              暂无
+            </div>
+          </div>
+        </div>
       </div>
       <div class="offer" v-show="data.items && data.items.length != 0">
         <h4 class="title">服务报价</h4>
@@ -51,26 +130,14 @@
           </div>
         </div>
       </div>
-      <div class="close" v-show="showMore" @click="close">
+      <!-- <div class="close" v-show="showMore" @click="close">
         <span>点击收起</span>
         <img src="@/assets/appDetail/ic_arrow_drop_up@3x.png" alt="">
       </div>
       <div class="loadmore" v-show="!showMore && showBtn" @click="moreDetail">
         <span>查看更多</span>
         <img style="display:block;width:12px;height: 12px;margin-right: 8px;" src="@/assets/appDetail/ic_arrow_drop_down@3x.png" alt="">
-      </div>
-    </div>
-    <div class="company" @click="goCompany">
-      <div class="companyInfo_footer">
-        <img class="logo" :src="data.company.logo" alt="">
-        <div class="info">
-          <span class="name">{{data.company.name}}<img :src="levelSrc" alt="" srcset=""></span>
-          <div class="businessList">
-            <span class="business" >{{data.company.levelLabel}}</span>
-          </div>
-        </div>
-      </div>
-      <img style="display: block;width:16px;height: 16px;margin-right: 10px;" src="@/assets/appDetail/ic_chevron_right_small@3x.png" alt="">
+      </div> -->
     </div>
   </div>
 </template>
@@ -98,9 +165,24 @@ export default {
         company:{
           address: '',
           logo: '',
-          levelLabel: ''
+          levelLabel: '',
+          bindMerchant: false
         }
-      }
+      },
+      securityList: [
+        {
+          title: '诚信商家',
+          logo: require('../../assets/appDetail/V1_12@3x.png')
+        },
+        {
+          title: '诚信商家',
+          logo: require('../../assets/appDetail/V1_12@3x.png')
+        },
+        {
+          title: '诚信商家',
+          logo: require('../../assets/appDetail/V1_12@3x.png')
+        }
+      ]
     }
   },
   created(){
@@ -145,6 +227,13 @@ export default {
             return
           }else{
             this.data = res.data
+            if(this.data.handleProcessDuration){
+              this.data.handleProcessDuration = this.data.handleProcessDuration.replace(/\n/g,'<br/>')
+              console.log(this.data.handleProcessDuration)
+              this.data.handleMaterial =  this.data.handleMaterial.replace(/\n/g,'<br/>')
+              this.data.deliveryMaterial = this.data.deliveryMaterial.replace(/\n/g,'<br/>')
+              this.data.deliveryDuration = this.data.deliveryDuration.replace(/\n/g,'<br/>')
+            }
             let imgList = []
             for (let i = 0; i < res.data.imgs.length; i++) {
               imgList.push(res.data.imgs[i].img)
@@ -163,7 +252,24 @@ export default {
               handlerName: 'imAccid',
               callbackId: ''
             }
+
+            //发送服务信息
+            let serviceData = {
+              serviceCode: this.data.serviceCode,
+              serviceName: this.data.serviceName,
+              intentionStatus: this.data.intentionStatus,
+              companyId: this.data.company.id,
+              companyName: this.data.company.name,
+              bindMerchant: this.data.company.bindMerchant
+            }
+
+            let serviceJson = {
+              data: serviceData,
+              handlerName: 'service',
+              callbackId: ''
+            }
             nativePostMessage(jsonMessage)
+            nativePostMessage(serviceJson)
           }
         }
       })
@@ -247,7 +353,7 @@ export default {
       font-size: 20px;
       color: rgba(0,0,0,0.87);
       margin-left: 24px;
-      line-height: 26px;
+      line-height: 30px;
       // margin-right: auto;
     }
     .imgList{
@@ -280,7 +386,7 @@ export default {
       margin-left: 24px;
       margin-top: 16px;
       .areaContent{
-        border-right: 1px solid rgba(0,0,0,0.04);
+        // border-right: 1px solid rgba(0,0,0,0.04);
         padding-right: 10px;
         .adress{
           display: flex;
@@ -306,8 +412,60 @@ export default {
       }
     }
   }
+  .service_security{
+    width: 100%;
+    margin-top: 15px;
+    .security_title{
+      width: 312px;
+      padding-top: 13px;
+      margin-left: auto;
+      margin-right: auto;
+      display: flex;
+      align-items: center;
+      border-top: 1px solid rgba(0,0,0,0.04);
+      h4{
+        font-family: PingFangSC-Medium;
+        font-size: 14px;
+        color: rgba(0,0,0,0.87);
+        text-align: left;
+        line-height: 20px;
+      }
+    }
+    .security_content{
+      width: 312px;
+      margin-left: auto;
+      margin-right: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      margin-top: 16px;
+      .security{
+        width: 70px;
+        height: 70px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-flow: column;
+        background: rgba(0,0,0,0.02);
+        img{
+          margin-bottom: 4px;
+          display: block;
+          width: 28px;
+          height: 28px;
+        }
+        span{
+          font-family: PingFangSC-Regular;
+          font-size: 12px;
+          color: rgba(0,0,0,0.60);
+          text-align: left;
+          font-weight: 100;
+          line-height: 20px;
+        }
+      }
+    }
+  }
   .hidden{
-    max-height: 288px;
+    // max-height: 288px;
     overflow: hidden;
     position: relative;
   }
@@ -321,13 +479,33 @@ export default {
       margin-left: 24px;
       border-left: 3px solid #FF7F4A;
     }
+    .Introduction_title{
+      width: 312px;
+      margin-left: auto;
+      margin-right: auto;
+      display: flex;
+      align-items: center;
+      h4{
+        font-family: PingFangSC-Medium;
+        font-size: 14px;
+        color: rgba(0,0,0,0.87);
+        text-align: left;
+        line-height: 20px;
+      }
+    }
     .content{
       width: 312px;
       margin-left: 24px;
       margin-top: 16px;
       font-size: 13px !important;
       color: rgba(0,0,0,0.38) !important;
-      line-height: 18px;
+      line-height: 22px;
+      .Introduction{
+        margin-bottom: 12px;
+        .label{
+          margin-bottom: 4px;
+        }
+      }
     }
   }
   .offer{
@@ -459,7 +637,7 @@ export default {
     justify-content: space-between;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 32px;
+    margin-top: 24px;
     .companyInfo_footer{
       display: flex;
       margin-left: 16px;
@@ -467,7 +645,7 @@ export default {
       width: 100%;
       .logo{
         display: block;
-        border: 1px solid rgba(0,0,0,0.04);
+        // border: 1px solid rgba(0,0,0,0.04);
         border-radius: 4px;
         width: 48px;
         height: 48px;
@@ -477,11 +655,11 @@ export default {
         display: flex;
         flex-flow: column;
         align-items: flex-start;
-        width: 65%;
+        width: 80%;
         margin-left: 0;
         .name{
           display: flex;
-          align-items: center;
+          align-items: flex-start;
           font-family: PingFangSC-Regular;
           font-size: 14px;
           color: rgba(0,0,0,0.60);
@@ -491,7 +669,7 @@ export default {
             display: block;
             width: 16px;
             height: 16px;
-            margin-left: 6px;
+            margin-left: 1px;
           }
         }
         .businessList{
