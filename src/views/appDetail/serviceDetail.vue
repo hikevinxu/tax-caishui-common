@@ -193,13 +193,7 @@ export default {
       }
       this.getDetail(data)
     }
-    if(this.data.company.level == 1){
-      this.levelSrc = require('../../assets/appDetail/V1_12@3x.png')
-    }else if(this.data.company.level == 2){
-      this.levelSrc = require('../../assets/appDetail/V2_20@3x.png')
-    }else if(this.data.company.level == 3){
-      this.levelSrc = require('../../assets/appDetail/V3_20@3x.png')
-    }
+    
   },
   mounted(){
     setTimeout(()=>{
@@ -227,6 +221,13 @@ export default {
             return
           }else{
             this.data = res.data
+            if(this.data.company.level == 1){
+              this.levelSrc = require('../../assets/appDetail/V1_12@3x.png')
+            }else if(this.data.company.level == 2){
+              this.levelSrc = require('../../assets/appDetail/V2_20@3x.png')
+            }else if(this.data.company.level == 3){
+              this.levelSrc = require('../../assets/appDetail/V3_20@3x.png')
+            }
             if(this.data.handleProcessDuration){
               this.data.handleProcessDuration = this.data.handleProcessDuration.replace(/\n/g,'<br/>')
               console.log(this.data.handleProcessDuration)
