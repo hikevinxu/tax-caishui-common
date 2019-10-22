@@ -115,7 +115,7 @@
           </div>
         </div>
       </div>
-      <div class="offer" v-show="data.items && data.items.length != 0">
+      <div class="offer" v-show="data.items && data.items.length != 0 &&showOffer">
         <h4 class="title">服务报价</h4>
         <div class="tabel">
           <div class="header">
@@ -155,6 +155,7 @@ export default {
       content: '',
       showMore: false,
       showBtn: true,
+      showOffer: true,
       serviceList: [
       ],
       businessList: [],
@@ -221,6 +222,7 @@ export default {
             return
           }else{
             this.data = res.data
+            //判断公司的等级
             if(this.data.company.level == 1){
               this.levelSrc = require('../../assets/appDetail/V1_12@3x.png')
             }else if(this.data.company.level == 2){
@@ -228,6 +230,7 @@ export default {
             }else if(this.data.company.level == 3){
               this.levelSrc = require('../../assets/appDetail/V3_20@3x.png')
             }
+            //替换文本换行
             if(this.data.handleProcessDuration){
               this.data.handleProcessDuration = this.data.handleProcessDuration.replace(/\n/g,'<br/>')
               console.log(this.data.handleProcessDuration)
@@ -235,6 +238,11 @@ export default {
               this.data.deliveryMaterial = this.data.deliveryMaterial.replace(/\n/g,'<br/>')
               this.data.deliveryDuration = this.data.deliveryDuration.replace(/\n/g,'<br/>')
             }
+            //判断报价是否有值
+            if(res.data.items.length == 1 && res.data.items[0].name == '' && res.data.items[0].price == ''){
+              this.showOffer = false
+            }
+
             let imgList = []
             for (let i = 0; i < res.data.imgs.length; i++) {
               imgList.push(res.data.imgs[i].img)
