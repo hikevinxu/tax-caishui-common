@@ -601,7 +601,11 @@ export default {
             target: this.formData.channelRemark,
             subject: subject
           })
-          this.$router.push('/downloadAPP?id=' + this.$route.query.id + '&channelRemark=' + this.$route.query.channelRemark)
+          if(this.formData.formType && this.formData.formType == 3) {
+            return
+          } else {
+            this.$router.push('/downloadAPP?id=' + this.$route.query.id + '&channelRemark=' + this.$route.query.channelRemark)
+          }
         }
       })
 
