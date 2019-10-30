@@ -460,7 +460,8 @@ export default {
         verifycode: this.password,
         pageType: this.formData.pageType,
         pageId: this.$route.query.id,
-        formJson: JSON.stringify(formJson)
+        formJson: JSON.stringify(formJson),
+        utm_medium: this.$route.query.utm_medium
       }
       globalApi.channelPageObtainFormValidateSave(params).then(res => {
         if(res.code == 0){
@@ -587,7 +588,8 @@ export default {
         pageId: this.$route.query.id,
         pageType: this.formData.pageType,
         formType: this.formData.formType,
-        formJson: JSON.stringify(formJson)
+        formJson: JSON.stringify(formJson),
+        utm_medium: this.$route.query.utm_medium
       }
 
       globalApi.channelPageObtainFormValidateSave(params).then(res => {

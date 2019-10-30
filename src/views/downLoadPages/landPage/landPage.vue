@@ -106,33 +106,33 @@
           <div class="title" v-if="formData.formTitle">{{formData.formTitle}}</div>
           <div class="form_item" v-if="formData.formType == 1">
             <label>国家/地区<span>*</span></label>
-            <div class="select"><input v-model="countries" type="text" readonly @click="show = true" placeholder="请选择"></div>
+            <div class="select"><input :style="{background: formData.preRegisterBgColor}" v-model="countries" type="text" readonly @click="show = true" placeholder="请选择"></div>
             <van-popup v-model="show" position="bottom">
               <van-picker show-toolbar title="请选择" :columns="countriesList" @cancel="show = false" @confirm="onCityConfirm" />
             </van-popup>
           </div>
           <div class="form_item" v-if="formData.formType == 1">
             <label>注册意向</label>
-            <div class="select"><input type="text" v-model="intention" readonly @click="intentionShow = true" placeholder="请选择"></div>
+            <div class="select"><input :style="{background: formData.preRegisterBgColor}" type="text" v-model="intention" readonly @click="intentionShow = true" placeholder="请选择"></div>
             <van-popup v-model="intentionShow" position="bottom">
               <van-picker show-toolbar title="请选择" :columns="intentionList" @cancel="intentionShow = false" @confirm="onIntentionConfirm" />
             </van-popup>
           </div>
           <div class="form_item"  v-if="formData.formType == 2">
             <label>城市/地区<span>*</span></label>
-            <div class="select"><input v-model="address" type="text" placeholder="如：杭州-西湖区"></div>
+            <div class="select"><input :style="{background: formData.preRegisterBgColor}" v-model="address" type="text" placeholder="如：杭州-西湖区"></div>
           </div>
           <div class="form_item">
             <label>如何称呼</label>
-            <div class="select"><input v-model="name" type="text" placeholder="请输入"></div>
+            <div class="select"><input :style="{background: formData.preRegisterBgColor}" v-model="name" type="text" placeholder="姓名已加密，请放心填写"></div>
           </div>
           <div class="form_item">
             <label>手机号码<span>*</span></label>
-            <div class="select"><input maxlength="11" v-model="phone" type="tel" placeholder="请输入"></div>
+            <div class="select"><input :style="{background: formData.preRegisterBgColor}" maxlength="11" v-model="phone" type="tel" placeholder="尽管方可见，请放心填写"></div>
           </div>
           <div class="form_item" v-if="phone.length == 11">
             <label>短信验证码<span>*</span></label>
-            <div class="select"><input maxlength="11" v-model="password" type="tel" placeholder="请输入"></div>
+            <div class="select"><input :style="{background: formData.preRegisterBgColor}" maxlength="11" v-model="password" type="tel" placeholder="请输入正确验证码"></div>
             <div class="intentionCollect_getYZM" @click="intentionGetYZM"><span v-if="!getting">获取验证码</span><span v-else>{{second}}s后重新获取</span></div>
           </div>
           <div id="captcha"></div>
@@ -150,6 +150,9 @@
         <div class="bottomText" v-if="formData.companyInfo">
           <span :style="{'color': formData.companyInfoColor}" v-html="handleText(formData.companyInfo)"></span>
         </div>
+      </div>
+      <div class="fixedButton" v-if="formData.adviceShow">
+        <a :href="'tel:' + formData.advicePhone" :style="{background: formData.adviceButtonColor, color: formData.adviceContentColor}">{{formData.adviceButtonContent}}</a>
       </div>
     </div>
   </div>
@@ -466,7 +469,8 @@ export default {
         verifycode: this.password,
         pageType: this.formData.pageType,
         pageId: this.$route.query.id,
-        formJson: JSON.stringify(formJson)
+        formJson: JSON.stringify(formJson),
+        utm_medium: this.$route.query.utm_medium
       }
       globalApi.channelPageObtainFormValidateSave(params).then(res => {
         if(res.code == 0){
@@ -571,7 +575,8 @@ export default {
         pageId: this.$route.query.id,
         pageType: this.formData.pageType,
         formType: this.formData.formType,
-        formJson: JSON.stringify(formJson)
+        formJson: JSON.stringify(formJson),
+        utm_medium: this.$route.query.utm_medium
       }
 
       globalApi.channelPageObtainFormValidateSave(params).then(res => {
@@ -836,7 +841,7 @@ export default {
             color: #666666;
             input {
               width: 100%;
-              background-color: #fbfbfb;
+              background-color: #ffffff;
             }
           }
           .intentionCollect_getYZM {
@@ -892,6 +897,8 @@ export default {
     }
     .bottomCopyRight {
       margin: 0 26px;
+      margin-top: 20px;
+      margin-bottom: 40px;
       padding-bottom: 20px;
       font-size: 10px;
       font-family: PingFangSC-Regular;
@@ -901,7 +908,7 @@ export default {
       .bottomText,
       .topText {
         width: 100%;
-        padding: 10px 0;
+        padding: 5px 0;
         span {
           font-size: 10px;
           font-family: PingFangSC-Regular;
@@ -918,6 +925,32 @@ export default {
           color:rgba(196,196,196,1);
           line-height: 16px;
         }
+      }
+    }
+    .fixedButton {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 40px;
+      line-height: 40px;
+      background-color: pink;
+      a {
+        display: block;
+        text-align: center;
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        font-family: PingFangSC-Regular;
+        font-size: 16px;
+        font-weight: 600;
+        color: rgba(255,255,255,1);
+        line-height: 40px;
+        background-color: #fff;
+        border-radius: 3px;
+        background: linear-gradient(0deg,rgba(52,85,239,1) 0%,rgba(104,161,245,1) 100%);
+        letter-spacing: 4px;
+        outline: none;
       }
     }
   }
