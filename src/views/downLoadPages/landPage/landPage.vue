@@ -128,7 +128,7 @@
           </div>
           <div class="form_item">
             <label>手机号码<span>*</span></label>
-            <div class="select"><input :style="{background: formData.preRegisterBgColor}" maxlength="11" v-model="phone" type="tel" placeholder="尽管方可见，请放心填写"></div>
+            <div class="select"><input :style="{background: formData.preRegisterBgColor}" maxlength="11" v-model="phone" type="tel" placeholder="仅官方可见，请放心填写"></div>
           </div>
           <div class="form_item" v-if="phone.length == 11">
             <label>短信验证码<span>*</span></label>
