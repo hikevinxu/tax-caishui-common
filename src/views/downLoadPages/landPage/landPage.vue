@@ -160,10 +160,10 @@
 <script>
 import Vue from 'vue'
 import sa from 'sa-sdk-javascript'
-import { Field, Button, Toast, Checkbox, Picker, Popup, Tab, Tabs, Icon } from 'vant'
+import { Field, Button, Toast, Checkbox, Picker, Popup, Tab, Tabs, Icon, Dialog } from 'vant'
 import globalApi from '@/api/globalApi'
 import { config, Terminal } from '@/utils/global'
-Vue.use(Field).use(Button).use(Toast).use(Checkbox).use(Picker).use(Popup).use(Tab).use(Tabs).use(Icon)
+Vue.use(Field).use(Button).use(Toast).use(Checkbox).use(Picker).use(Popup).use(Tab).use(Tabs).use(Icon).use(Dialog)
 export default {
   name: 'landPage',
   data() {
@@ -582,13 +582,6 @@ export default {
       globalApi.channelPageObtainFormValidateSave(params).then(res => {
         if(res.code == 0) {
           Toast('提交成功!')
-          if(res.data.newRegistration == true){
-            sa.track('WebSignUp', {
-                target: this.formData.channelRemark,
-                phone: this.phone
-            })
-            sa.login(res.data.uid)
-          }
           if (this.formData.jsReport) {
             try {
               eval(this.formData.jsReport)
@@ -602,8 +595,21 @@ export default {
             subject: subject
           })
           if(this.formData.formType && this.formData.formType == 3) {
+            Dialog.alert({
+              title: '恭喜您信息提交成功',
+              message: '稍后会有专属顾问联系您'
+            }).then(() => {
+              // on close
+            })
             return
           } else {
+            if(res.data.newRegistration && res.data.newRegistration == true){
+              sa.track('WebSignUp', {
+                  target: this.formData.channelRemark,
+                  phone: this.phone
+              })
+              sa.login(res.data.uid)
+            }
             this.$router.push('/downloadAPP?id=' + this.$route.query.id + '&channelRemark=' + this.$route.query.channelRemark)
           }
         }
