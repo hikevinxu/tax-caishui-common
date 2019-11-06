@@ -12,17 +12,17 @@
         <img src="@/assets/downLoadPages/ic_successful@3x.png" alt="">
       </div>
       <div class="success_info">
-        <p>恭喜您注册成功！</p>
-        <p>下载app即可解锁全部财税服务</p>
+        <p>恭喜您已申请成功！</p>
+        <p>我们将在第一时间为您解决需求，<br />别忘了保持电话畅通哦～</p>
       </div>
-      <div class="loading">
+      <!-- <div class="loading">
         <img src="@/assets/downLoadPages/loading.gif" class="loadingIcon" alt="">
       </div>
       <div class="warning">
         <p>如未自动开始下载APP，请点击</p>
-      </div>
+      </div> -->
       <div class="downloadBtn">
-        <van-button type="primary" size="large" @click="download">下载APP完成申请</van-button>
+        <van-button type="primary" size="large" @click="download">下载APP可解锁全部财税服务</van-button>
       </div>
     </div>
   </div>
@@ -56,9 +56,9 @@ export default {
         $title: '初审通过',
         appname: `财税鱼渠道页`
       })
-      if(!(this.isWechat && this.isAndroid)) {
-        setTimeout(this.download(), 1000)
-      }
+      // if(!(this.isWechat && this.isAndroid)) {
+      //   setTimeout(this.download(), 1000)
+      // }
     }
   },
   methods: {
@@ -76,9 +76,9 @@ export default {
             $title: this.formData.title,
             appname: `${this.formData.packageName}渠道页`
           })
-          if(!(this.isWechat && this.isAndroid)) {
-            setTimeout(this.download(), 1000)
-          }
+          // if(!(this.isWechat && this.isAndroid)) {
+          //   setTimeout(this.download(), 1000)
+          // }
         }
       })
     },
@@ -175,6 +175,7 @@ export default {
         line-height: 19.8px;
       }
       p:last-child{
+        margin: 0 30px;
         font-family: PingFangSC-Regular;
         font-size: 14.52px;
         color: #151515;
@@ -205,7 +206,7 @@ export default {
       width: 264px;
       height: 40px;
       margin: 0 auto;
-      margin-top: 14px;
+      margin-top: 60px;
       .van-button {
         width: 100%;
         font-size: 16px;
