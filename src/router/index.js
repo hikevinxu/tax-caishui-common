@@ -165,6 +165,14 @@ export default new Router({
       }
     },
     {
+      path: '/rule',
+      name: 'rule',
+      component: () => import('../views/taxWechat/rule.vue'),
+      meta: {
+        title: '财税鱼退单规则'
+      }
+    },
+    {
       path: '/netError',
       name: 'netError',
       component: () => import('../views/errorPage/netError.vue'),
